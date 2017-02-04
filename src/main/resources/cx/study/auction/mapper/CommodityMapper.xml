@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cx.study.auction.mapper.CommodityMapper" >
+  <resultMap id="BaseResultMap" type="cx.study.auction.pojo.Commodity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="commodity_name" property="commodityName" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="appraised_price" property="appraisedPrice" jdbcType="DECIMAL" />
+    <result column="reserve_price" property="reservePrice" jdbcType="DECIMAL" />
+    <result column="starting_price" property="startingPrice" jdbcType="DECIMAL" />
+    <result column="bid_increments" property="bidIncrements" jdbcType="DECIMAL" />
+    <result column="hammer_price" property="hammerPrice" jdbcType="DECIMAL" />
+    <result column="bidding_deposit " property="biddingDeposit " jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="registration_time" property="registrationTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, commodity_name, type_id, description, customer_id, appraised_price, reserve_price, 
+    starting_price, bid_increments, hammer_price, bidding_deposit , status, start_time, 
+    end_time, registration_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from commodity
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from commodity
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cx.study.auction.pojo.Commodity" >
+    insert into commodity (id, commodity_name, type_id, 
+      description, customer_id, appraised_price, 
+      reserve_price, starting_price, bid_increments, 
+      hammer_price, bidding_deposit , status, 
+      start_time, end_time, registration_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{commodityName,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, 
+      #{description,jdbcType=VARCHAR}, #{customerId,jdbcType=INTEGER}, #{appraisedPrice,jdbcType=DECIMAL}, 
+      #{reservePrice,jdbcType=DECIMAL}, #{startingPrice,jdbcType=DECIMAL}, #{bidIncrements,jdbcType=DECIMAL}, 
+      #{hammerPrice,jdbcType=DECIMAL}, #{biddingDeposit ,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{registrationTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cx.study.auction.pojo.Commodity" >
+    insert into commodity
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="commodityName != null" >
+        commodity_name,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="appraisedPrice != null" >
+        appraised_price,
+      </if>
+      <if test="reservePrice != null" >
+        reserve_price,
+      </if>
+      <if test="startingPrice != null" >
+        starting_price,
+      </if>
+      <if test="bidIncrements != null" >
+        bid_increments,
+      </if>
+      <if test="hammerPrice != null" >
+        hammer_price,
+      </if>
+      <if test="biddingDeposit  != null" >
+        bidding_deposit ,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="registrationTime != null" >
+        registration_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="commodityName != null" >
+        #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="appraisedPrice != null" >
+        #{appraisedPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="reservePrice != null" >
+        #{reservePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="startingPrice != null" >
+        #{startingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="bidIncrements != null" >
+        #{bidIncrements,jdbcType=DECIMAL},
+      </if>
+      <if test="hammerPrice != null" >
+        #{hammerPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="biddingDeposit  != null" >
+        #{biddingDeposit ,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="registrationTime != null" >
+        #{registrationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cx.study.auction.pojo.Commodity" >
+    update commodity
+    <set >
+      <if test="commodityName != null" >
+        commodity_name = #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="appraisedPrice != null" >
+        appraised_price = #{appraisedPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="reservePrice != null" >
+        reserve_price = #{reservePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="startingPrice != null" >
+        starting_price = #{startingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="bidIncrements != null" >
+        bid_increments = #{bidIncrements,jdbcType=DECIMAL},
+      </if>
+      <if test="hammerPrice != null" >
+        hammer_price = #{hammerPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="biddingDeposit  != null" >
+        bidding_deposit  = #{biddingDeposit ,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="registrationTime != null" >
+        registration_time = #{registrationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cx.study.auction.pojo.Commodity" >
+    update commodity
+    set commodity_name = #{commodityName,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=INTEGER},
+      appraised_price = #{appraisedPrice,jdbcType=DECIMAL},
+      reserve_price = #{reservePrice,jdbcType=DECIMAL},
+      starting_price = #{startingPrice,jdbcType=DECIMAL},
+      bid_increments = #{bidIncrements,jdbcType=DECIMAL},
+      hammer_price = #{hammerPrice,jdbcType=DECIMAL},
+      bidding_deposit  = #{biddingDeposit ,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      registration_time = #{registrationTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

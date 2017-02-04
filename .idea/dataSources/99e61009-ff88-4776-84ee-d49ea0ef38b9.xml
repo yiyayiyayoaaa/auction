@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="MySQL - jdbc:mysql://127.0.0.1:3306/auction">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.0">
+    <root id="1"/>
+    <schema id="2" parent="1" name="auction">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="chat"/>
+    <schema id="4" parent="1" name="information_schema"/>
+    <schema id="5" parent="1" name="mysql"/>
+    <schema id="6" parent="1" name="performance_schema"/>
+    <schema id="7" parent="1" name="test"/>
+    <table id="8" parent="2" name="admin"/>
+    <table id="9" parent="2" name="commodity"/>
+    <table id="10" parent="2" name="commodity_image"/>
+    <table id="11" parent="2" name="commodity_user"/>
+    <table id="12" parent="2" name="commoditytype"/>
+    <table id="13" parent="2" name="order"/>
+    <table id="14" parent="2" name="order_user"/>
+    <table id="15" parent="2" name="user"/>
+    <table id="16" parent="2" name="user_address"/>
+    <column id="17" parent="8" name="id">
+      <Position>1</Position>
+      <Comment>管理员ID</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="18" parent="8" name="username">
+      <Position>2</Position>
+      <Comment>管理员账号</Comment>
+      <DataType>varchar(18)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="19" parent="8" name="password">
+      <Position>3</Position>
+      <Comment>管理员密码</Comment>
+      <DataType>varchar(18)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="20" parent="8" name="status">
+      <Position>4</Position>
+      <Comment>管理员等级 1超级管理员 ，2普通管理员</Comment>
+      <DataType>int(10) unsigned zerofill|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="21" parent="8" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="22" parent="9" name="id">
+      <Position>1</Position>
+      <Comment>商品ID</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="23" parent="9" name="name">
+      <Position>2</Position>
+      <Comment>商品名</Comment>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="24" parent="9" name="description">
+      <Position>3</Position>
+      <Comment>商品描述</Comment>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="25" parent="9" name="tid">
+      <Position>4</Position>
+      <Comment>商品分类 外键：CommodityType.id</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="26" parent="9" name="startPrice">
+      <Position>5</Position>
+      <Comment>商品底价</Comment>
+      <DataType>double|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="27" parent="9" name="increments">
+      <Position>6</Position>
+      <Comment>出价增幅</Comment>
+      <DataType>double|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="28" parent="9" name="appraisedPrice">
+      <Position>7</Position>
+      <Comment>商品估价</Comment>
+      <DataType>double|0</DataType>
+    </column>
+    <column id="29" parent="9" name="deposit">
+      <Position>8</Position>
+      <Comment>保证金</Comment>
+      <DataType>double|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="30" parent="9" name="reservePrice">
+      <Position>9</Position>
+      <Comment>保留价</Comment>
+      <DataType>double|0</DataType>
+    </column>
+    <column id="31" parent="9" name="hammerPrice">
+      <Position>10</Position>
+      <Comment>商品成交价</Comment>
+      <DataType>double|0</DataType>
+    </column>
+    <column id="32" parent="9" name="status">
+      <Position>11</Position>
+      <Comment>商品状态0默认 1待拍卖 2拍卖中 3成交 4流拍</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="33" parent="9" name="startTime">
+      <Position>12</Position>
+      <Comment>起拍时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="34" parent="9" name="endTime">
+      <Position>13</Position>
+      <Comment>结束时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <index id="35" parent="9" name="FK_commodity">
+      <ColNames>tid</ColNames>
+    </index>
+    <key id="36" parent="9" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="37" parent="9" name="FK_commodity">
+      <ColNames>tid</ColNames>
+      <RefSchemaName>auction</RefSchemaName>
+      <RefTableName>commoditytype</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="38" parent="10" name="id">
+      <Position>1</Position>
+      <Comment>ID</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="39" parent="10" name="cid">
+      <Position>2</Position>
+      <Comment>商品ID 外键：Commodity.id</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="40" parent="10" name="imgUrl">
+      <Position>3</Position>
+      <Comment>图片路径</Comment>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="41" parent="10" name="description">
+      <Position>4</Position>
+      <Comment>图片描述</Comment>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <index id="42" parent="10" name="FK_commodity_image">
+      <ColNames>cid</ColNames>
+    </index>
+    <key id="43" parent="10" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="44" parent="10" name="FK_commodity_image">
+      <ColNames>cid</ColNames>
+      <RefSchemaName>auction</RefSchemaName>
+      <RefTableName>commodity</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="45" parent="11" name="id">
+      <Position>1</Position>
+      <Comment>ID</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="46" parent="11" name="cid">
+      <Position>2</Position>
+      <Comment>商品ID</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="47" parent="11" name="uid">
+      <Position>3</Position>
+      <Comment>用户ID</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="48" parent="11" name="FK_commodity_user_c">
+      <ColNames>cid</ColNames>
+    </index>
+    <index id="49" parent="11" name="FK_commodity_user_u">
+      <ColNames>uid</ColNames>
+    </index>
+    <key id="50" parent="11" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="51" parent="11" name="FK_commodity_user_c">
+      <ColNames>cid</ColNames>
+      <RefSchemaName>auction</RefSchemaName>
+      <RefTableName>commodity</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="52" parent="11" name="FK_commodity_user_u">
+      <ColNames>uid</ColNames>
+      <RefSchemaName>auction</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="53" parent="12" name="id">
+      <Position>1</Position>
+      <Comment>分类ID</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="54" parent="12" name="typeName">
+      <Position>2</Position>
+      <Comment>分类名称</Comment>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="55" parent="12" name="description">
+      <Position>3</Position>
+      <Comment>分类描述</Comment>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <key id="56" parent="12" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="57" parent="13" name="id">
+      <Position>1</Position>
+      <Comment>订单ID</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="58" parent="13" name="orderNum">
+      <Position>2</Position>
+      <Comment>订单号</Comment>
+      <DataType>varchar(18)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="59" parent="13" name="cid">
+      <Position>3</Position>
+      <Comment>商品ID 外键：Commodity.id</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="60" parent="13" name="address">
+      <Position>4</Position>
+      <Comment>地址</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="61" parent="13" name="totalPrice">
+      <Position>5</Position>
+      <Comment>总价</Comment>
+      <DataType>double|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="62" parent="13" name="payTime">
+      <Position>6</Position>
+      <Comment>支付时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="63" parent="13" name="finishTime">
+      <Position>7</Position>
+      <Comment>完成时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="64" parent="13" name="status">
+      <Position>8</Position>
+      <Comment>订单状态 0待支付，1已支付，2已发出，3已完成，4已取消</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <index id="65" parent="13" name="FK_order">
+      <ColNames>cid</ColNames>
+    </index>
+    <key id="66" parent="13" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="67" parent="13" name="FK_order">
+      <ColNames>cid</ColNames>
+      <RefSchemaName>auction</RefSchemaName>
+      <RefTableName>commodity</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="68" parent="14" name="id">
+      <Position>1</Position>
+      <Comment>ID</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="69" parent="14" name="oid">
+      <Position>2</Position>
+      <Comment>订单ID 外键：Order.id</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="70" parent="14" name="uid">
+      <Position>3</Position>
+      <Comment>用户ID 外键：User.id</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="71" parent="14" name="FK_order_user">
+      <ColNames>uid</ColNames>
+    </index>
+    <index id="72" parent="14" name="FK_order_user_o">
+      <ColNames>oid</ColNames>
+    </index>
+    <key id="73" parent="14" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="74" parent="14" name="FK_order_user_o">
+      <ColNames>oid</ColNames>
+      <RefSchemaName>auction</RefSchemaName>
+      <RefTableName>order</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="75" parent="14" name="FK_order_user">
+      <ColNames>uid</ColNames>
+      <RefSchemaName>auction</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="76" parent="15" name="id">
+      <Position>1</Position>
+      <Comment>用户ID</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="77" parent="15" name="username">
+      <Position>2</Position>
+      <Comment>用户名</Comment>
+      <DataType>varchar(18)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="78" parent="15" name="portrait">
+      <Position>3</Position>
+      <Comment>头像</Comment>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="79" parent="15" name="password">
+      <Position>4</Position>
+      <Comment>密码</Comment>
+      <DataType>varchar(18)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="80" parent="15" name="nickname">
+      <Position>5</Position>
+      <Comment>昵称</Comment>
+      <DataType>varchar(20)|0</DataType>
+    </column>
+    <column id="81" parent="15" name="sex">
+      <Position>6</Position>
+      <Comment>性别</Comment>
+      <DataType>varchar(2)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="82" parent="15" name="birth">
+      <Position>7</Position>
+      <Comment>出生日期</Comment>
+      <DataType>date|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="83" parent="15" name="phone">
+      <Position>8</Position>
+      <Comment>手机号码</Comment>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="84" parent="15" name="email">
+      <Position>9</Position>
+      <Comment>邮箱</Comment>
+      <DataType>varchar(30)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="85" parent="15" name="account">
+      <Position>10</Position>
+      <Comment>账户，单位：元，默认为0.0</Comment>
+      <DataType>double|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <key id="86" parent="15" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="87" parent="16" name="id">
+      <Position>1</Position>
+      <Comment>ID</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="88" parent="16" name="uid">
+      <Position>2</Position>
+      <Comment>用户ID 外键：User.id</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="89" parent="16" name="address">
+      <Position>3</Position>
+      <Comment>用户地址</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="90" parent="16" name="status">
+      <Position>4</Position>
+      <Comment>是否默认地址，1是，0不是</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <index id="91" parent="16" name="FK_user_address">
+      <ColNames>uid</ColNames>
+    </index>
+    <key id="92" parent="16" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="93" parent="16" name="FK_user_address">
+      <ColNames>uid</ColNames>
+      <RefSchemaName>auction</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+  </database-model>
+</dataSource>
