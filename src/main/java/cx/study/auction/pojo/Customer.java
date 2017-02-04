@@ -23,6 +23,21 @@ public class Customer {
 
     private Date updateTime;
 
+    public Customer(){
+
+    }
+
+    public Customer(String name, Integer gender, Date birth, String idcard, String phone, String email, String address, Date registrationTime) {
+        this.name = name;
+        this.gender = gender;
+        this.birth = birth;
+        this.idcard = idcard;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.registrationTime = registrationTime;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -102,4 +117,6 @@ public class Customer {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+
 }

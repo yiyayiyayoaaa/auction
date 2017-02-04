@@ -13,29 +13,55 @@
     <result column="registration_time" property="registrationTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+
   <sql id="Base_Column_List" >
     id, name, gender, birth, IDCard, phone, email, address, registration_time, update_time
   </sql>
+
+    <select id="findCustomer" resultMap="BaseResultMap" parameterType="cx.study.auction.query.CustomerQuery">
+        SELECT id,name, gender, birth, IDCard, phone, email, address, registration_time, update_time
+        FROM customer
+        WHERE 1 = 1
+        <if test="name != null">AND name LIKE #{name}</if>
+        <if test="idcard != null">AND idcard LIKE #{idcard}</if>
+        <if test="rows != 0">limit #{startRow},#{rows}</if>
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM customer
+    </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from customer
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+    <delete id="deleteCustomerById" parameterType="java.lang.Integer">
+        DELETE FROM customer
+        WHERE id = #{id}
+    </delete>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from customer
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cx.study.auction.pojo.Customer" >
-    insert into customer (id, name, gender, 
-      birth, IDCard, phone, 
-      email, address, registration_time, 
-      update_time)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, 
-      #{birth,jdbcType=DATE}, #{idcard,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{registrationTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+
+
+
+  <insert id="addCustomer" parameterType="cx.study.auction.pojo.Customer">
+    INSERT  into customer
+    (name,gender,birth, IDCard, phone,email, address, registration_time)
+    VALUES
+    (#{name,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER},
+      #{birth,jdbcType=DATE}, #{idcard,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+      #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{registrationTime,jdbcType=TIMESTAMP})
   </insert>
+
+
+
   <insert id="insertSelective" parameterType="cx.study.auction.pojo.Customer" >
     insert into customer
     <trim prefix="(" suffix=")" suffixOverrides="," >

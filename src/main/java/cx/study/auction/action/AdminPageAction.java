@@ -15,8 +15,13 @@ public class AdminPageAction {
         return "admin/login";
     }
 
-    @RequestMapping("/addCustomer")
+    @RequestMapping("/addCustomerPage")
     public String toAddNewCustomer(){
         return "admin/addNewCustomer";
+    }
+
+    @RequestMapping("/findCustomerPage")
+    public String toFindCustomer(){
+        return "admin/findCustomer";
     }
 }

@@ -50,15 +50,15 @@
             <div data-options="region:'west',split:true" title="导航菜单" style="width:250px;">
                 <div class="easyui-accordion" data-options="fit:true,border:false">
                     <div title="商品管理" style="padding:10px;">
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">商品登记</a><br>
+                        <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">商品登记</a><br>
                         <a href="#" class="easyui-linkbutton" data-options="plain:true">所有商品</a><br>
                         <a href="#" class="easyui-linkbutton" data-options="plain:true">正在拍卖</a><br>
                         <a href="#" class="easyui-linkbutton" data-options="plain:true">已成交商品</a><br>
                         <a href="#" class="easyui-linkbutton" data-options="plain:true">商品分类</a>
                     </div>
                     <div title="客户管理"  style="padding:10px;">
-                        <a href="javascript:openTab('新客户登记','${pageContext.request.contextPath}/admin/addCustomer.html')" class="easyui-linkbutton" data-options="plain:true">新客户登记</a><br>
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">客户信息</a>
+                        <a href="javascript:openTab('新客户登记','${pageContext.request.contextPath}/admin/addCustomerPage.do')" class="easyui-linkbutton" data-options="plain:true">新客户登记</a><br>
+                        <a href="javascript:openTab('客户信息管理','${pageContext.request.contextPath}/admin/findCustomerPage.do')" class="easyui-linkbutton" data-options="plain:true">客户信息</a>
                     </div>
                     <div title="用户管理"  style="padding:10px;">
                         <a href="#" class="easyui-linkbutton" data-options="plain:true">用户信息</a><br>

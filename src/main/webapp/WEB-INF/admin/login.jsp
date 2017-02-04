@@ -33,7 +33,7 @@
   	<div class="pageSide"></div>
   	
   	<div class="pageCenter">
-  		<form role="form" action="${pageContext.request.contextPath }/admin/login.html" method="post">
+  		<form role="form" action="${pageContext.request.contextPath }/admin/login.do" method="post">
 			<div class="form-group">
 				<span class="glyphicon glyphicon-user"></span><label for="username">账号</label><font color="red">${loginFail}</font>
 				<input type="text" class="form-control" id="username" name="username" placeholder="请输入账号。。。">

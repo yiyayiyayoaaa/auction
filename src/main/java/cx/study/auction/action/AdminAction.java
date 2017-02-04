@@ -28,8 +28,9 @@ public class AdminAction {
         admin.setPassword(password);
         Admin loginAdmin = adminService.login(admin);
         if ( loginAdmin != null){
-            loginAdmin.setLast_login_time(new Date());
-            adminService.updateLoginTime(loginAdmin);
+            admin.setId(loginAdmin.getId());
+            admin.setLast_login_time(new Date());
+            adminService.updateLoginTime(admin);
             session.setAttribute("loginAdmin",loginAdmin);
             return "admin/main";
         } else {
