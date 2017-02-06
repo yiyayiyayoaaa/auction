@@ -11,5 +11,6 @@ public interface CustomerMapper {
     int addCustomer(Customer customer);
     List<Customer> findCustomer(CustomerQuery customerQuery);
     int getTotalCount();
+    int updateCustomer(Customer customer);
     int deleteCustomerById(Integer id);
 }

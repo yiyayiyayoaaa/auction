@@ -22,11 +22,18 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     public List<Customer> findCustomer(CustomerQuery customerQuery) {
+        if(customerQuery.getName() != null){
+            customerQuery.setName("%" + customerQuery.getName() + "%");
+        }
         return customerMapper.findCustomer(customerQuery);
     }
 
     public int getTotalCount() {
         return customerMapper.getTotalCount();
+    }
+
+    public int updateCustomer(Customer customer) {
+        return customerMapper.updateCustomer(customer);
     }
 
     public int deleteCustomerById(Integer id) {

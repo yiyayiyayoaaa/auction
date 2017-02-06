@@ -23,7 +23,7 @@
         FROM customer
         WHERE 1 = 1
         <if test="name != null">AND name LIKE #{name}</if>
-        <if test="idcard != null">AND idcard LIKE #{idcard}</if>
+        <if test="idcard != null">OR idcard LIKE #{idcard}</if>
         <if test="rows != 0">limit #{startRow},#{rows}</if>
     </select>
 
@@ -32,6 +32,20 @@
         FROM customer
     </select>
 
+    <update id="updateCustomer" parameterType="cx.study.auction.pojo.Customer">
+        UPDATE customer
+        SET
+          name = #{name,jdbcType=VARCHAR},
+          gender = #{gender,jdbcType=INTEGER},
+          birth = #{birth,jdbcType=DATE},
+          IDCard = #{idcard,jdbcType=VARCHAR},
+          phone = #{phone,jdbcType=VARCHAR},
+          email = #{email,jdbcType=VARCHAR},
+          address = #{address,jdbcType=VARCHAR},
+          registration_time = #{registrationTime,jdbcType=TIMESTAMP},
+          update_time = #{updateTime,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

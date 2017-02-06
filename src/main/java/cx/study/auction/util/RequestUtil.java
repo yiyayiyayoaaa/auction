@@ -19,7 +19,7 @@ public class RequestUtil {
     }
     public static Date getDate(HttpServletRequest request, String parameter) throws ParseException {
         String param = request.getParameter(parameter);
-        String[] patterns = {"yyyy-MM-dd"};
+        String[] patterns = {"yyyy-MM-dd","yyyy-MM-dd HH:mm:ss"};
         return StringUtils.isBlank(param)? null : DateUtils.parseDate(param,patterns);
     }
     public static String getString(HttpServletRequest request,String parameter){

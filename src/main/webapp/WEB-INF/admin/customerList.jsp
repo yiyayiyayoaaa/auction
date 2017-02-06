@@ -16,7 +16,11 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery-easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
     <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/static/js/PCASClass.js"></script>
-
+    <style>
+        .f1{
+            width:200px;
+        }
+    </style>
     <script>
         function DateFormatter(value){
             if(value == null || value.trim() == ""){
@@ -24,9 +28,9 @@
             }
             var date = new Date(value);
             var y = date.getFullYear();
-            var m = date.getMonth() + 1;
+            var M = date.getMonth() + 1;
             var d = date.getDay();
-            return y + '-' + m + '-'+d;
+            return  y + "-" + (M<10?'0'+M:M) + "-" + (d<10?'0'+d:d);
         }
 
         function DateTimeFormatter(value){
@@ -40,7 +44,7 @@
             var h = date.getHours();
             var m = date.getMinutes();
             var s = date.getSeconds();
-            return y + "-" + M + "-" + d + " " + h + ":" + m + ":" + s;
+            return y + "-" + (M<10?'0'+M:M) + "-" + (d<10?'0'+d:d) + " " + (h<10?'0'+h:h) + ":" + (m<10?'0'+m:m) + ":" + (s<10?'0'+s:s);
         }
         function genderFormatter(value) {
             if(value == 0){
@@ -52,9 +56,9 @@
     </script>
 </head>
 <body>
-    <div style="margin:20px 0;"></div>
+    <div style="margin:5px 0;"></div>
 
-    <table id="dg" class="easyui-datagrid" title="Basic DataGrid" style="width:99%;height:620px"
+    <table id="dg" class="easyui-datagrid" title="客户信息" style="width:100%;height:100%"
            toolbar="#toolbar" data-options="pageSize:20,rownumbers:true,fitColumns:true,pagination:true,singleSelect:true,collapsible:true,
            url:'${pageContext.request.contextPath}/admin/findCustomer.do',method:'get'">
         <thead>
@@ -75,9 +79,11 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">新客户登记</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除</a>
+        <div style="width: 220px;float: right;margin-right: 10px">
+            <input id="search" class="easyui-textbox"  style="width: 100%" data-options="buttonText:'查询',onClickButton:doSearch,buttonAlign:'left',buttonIcon:'icon-search'"/>
+        </div>
     </div>
-    <div id="dlg" class="easyui-dialog" style="width:600px"
-         closed="true" buttons="#dlg-buttons">
+    <div id="dlg" class="easyui-dialog" style="width:600px" closed="true" buttons="#dlg-buttons">
         <form id="fm">
             <table style="margin:0;padding:20px 50px">
                 <tr>
@@ -134,22 +140,66 @@
         </form>
     </div>
     <div id="dlg-buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="submitData()" style="width:90px">保存</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+        <a id="save" href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok"  onclick="submitData()" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="closeDialog()" style="width:90px">取消</a>
     </div>
 
     <script type="text/javascript">
+        new PCAS("province","city","area");
+
+        $.extend($.fn.textbox.methods, {
+            addClearBtn: function(jq, iconCls){
+                return jq.each(function(){
+                    var t = $(this);
+                    var opts = t.textbox('options');
+                    opts.icons = opts.icons || [];
+                    opts.icons.unshift({
+                        iconCls: iconCls,
+                        handler: function(e){
+                            $(e.data.target).textbox('clear').textbox('textbox').focus();
+                            $(this).css('visibility','hidden');
+                            doSearch();
+                        }
+                    });
+                    t.textbox();
+                    if (!t.textbox('getText')){
+                        t.textbox('getIcon',0).css('visibility','hidden');
+                    }
+                    t.textbox('textbox').bind('keyup', function(){
+                        var icon = t.textbox('getIcon',0);
+                        if ($(this).val()){
+                            icon.css('visibility','visible');
+                        } else {
+                            icon.css('visibility','hidden');
+                        }
+                    });
+                });
+            }
+        });
+
+        $(function(){
+            $('#search').textbox().textbox('addClearBtn', 'icon-clear');
+        });
+
+        function doSearch(){
+            var key = $('#search').val();
+            $('#dg').datagrid('load',{
+                key:key
+            });
+        }
+
         var url;
         function newUser(){
-            $('#dlg').dialog('open').dialog('center').dialog('setTitle','客户信息录入');
+            $('#fm').form('reset');
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','信息录入');
             url =  "${pageContext.request.contextPath}/admin/addCustomer.do";
         }
         function editUser(){
             var row = $('#dg').datagrid('getSelected');
             if (row){
-                $('#dlg').dialog('open').dialog('center').dialog('setTitle','Edit User');
+                $('#dlg').dialog('open').dialog('center').dialog('setTitle','信息编辑');
                 $('#fm').form('load',row);
-                url = 'update_user.php?id='+row.id;
+                url = "${pageContext.request.contextPath}/admin/updateCustomer.do?id=" + row.id;
             }
         }
         function destroyUser(){
@@ -173,6 +223,11 @@
             }
         }
 
+        function closeDialog() {
+            $('#dlg').dialog('close');        // close the dialog
+            $('#fm').form('clear');
+        }
+
         function submitData() {
             var name = $("#name").val();
             var gender = $('input:radio:checked').val();
@@ -180,7 +235,13 @@
             var IDCard = $("#IDCard").val();
             var phone = $("#phone").val();
             var email = $("#email").val();
-            var address = $("#province").val() + " " + $("#city").val() + " " + $("#area").val() + " " + $("#address").val()
+            var province = $("#province").val();
+            var city = $("#city").val();
+            var area = $("#area").val();
+            var address = province==null?"":province
+                + " " + city==null?"":city
+                + " " + area==null?"":area
+                + " " + $("#address").val();
             $.post(
                url,
                 {
@@ -199,20 +260,14 @@
                             msg: data.data
                         });
                     } else {
-                        $('#dlg').dialog('close');        // close the dialog
+                        closeDialog();
                         $('#dg').datagrid('reload');    // reload the user data
-                        $('#fm').form('clear');
                     }
                 },
                 "json"
             );
         }
-        new PCAS("province","city","area")
     </script>
-    <style scoped>
-        .f1{
-            width:200px;
-        }
-    </style>
+
 </body>
 </html>

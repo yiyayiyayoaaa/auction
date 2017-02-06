@@ -48,37 +48,37 @@
             <div data-options="region:'south',split:true" style="height:25px;"></div>
 
             <div data-options="region:'west',split:true" title="导航菜单" style="width:250px;">
-                <div class="easyui-accordion" data-options="fit:true,border:false">
+                <div class="easyui-accordion" data-options="fit:false,border:false">
                     <div title="商品管理" style="padding:10px;">
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">商品登记</a><br>
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">所有商品</a><br>
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">正在拍卖</a><br>
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">已成交商品</a><br>
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">商品分类</a>
+                        <a href="#" class="easyui-linkbutton" data-options="plain:true">商品列表</a><br>
+                        <a href="#" class="easyui-linkbutton" data-options="plain:true">分类管理</a><br>
                     </div>
-                    <div title="客户管理"  style="padding:10px;">
-                        <a href="javascript:openTab('新客户登记','${pageContext.request.contextPath}/admin/addCustomerPage.do')" class="easyui-linkbutton" data-options="plain:true">新客户登记</a><br>
-                        <a href="javascript:openTab('客户信息管理','${pageContext.request.contextPath}/admin/findCustomerPage.do')" class="easyui-linkbutton" data-options="plain:true">客户信息</a>
+                    <div title="交易管理"  style="padding:10px;">
+                        <a href="#" class="easyui-linkbutton" data-options="plain:true">交易信息</a><br>
+                        <a href="#" class="easyui-linkbutton" data-options="plain:true">订单管理</a>
                     </div>
                     <div title="用户管理"  style="padding:10px;">
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">用户信息</a><br>
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">用户账户</a>
+                        <a href="javascript:openTab('客户列表','${pageContext.request.contextPath}/admin/customerList.do')" class="easyui-linkbutton" data-options="plain:true">客户列表</a><br>
+                        <a href="javascript:openTab('用户列表','${pageContext.request.contextPath}/admin/findCustomerPage.do')" class="easyui-linkbutton" data-options="plain:true">用户列表</a><br>
+                        <a href="javascript:openTab('账户管理','${pageContext.request.contextPath}/admin/findCustomerPage.do')" class="easyui-linkbutton" data-options="plain:true">账户管理</a>
                     </div>
-                    <div title="订单管理" style="padding:10px">
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">所有订单</a><br>
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">未支付订单</a><br>
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">未发货订单</a><br>
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">已发货订单</a>
+                    <div title="消息管理" style="padding:10px">
+                        <a href="#" class="easyui-linkbutton" data-options="plain:true">留言列表</a><br>
+                        <a href="#" class="easyui-linkbutton" data-options="plain:true">意见反馈</a><br>
+                    </div>
+                    <div title="管理员管理" style="padding:10px">
+                        <a href="#" class="easyui-linkbutton" data-options="plain:true">管理员列表</a><br>
+                        <a href="#" class="easyui-linkbutton" data-options="plain:true">个人信息</a><br>
                     </div>
                     <div title="系统管理" style="padding:10px">
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">系统信息</a><br>
+                        <a href="#" class="easyui-linkbutton" data-options="plain:true">系统设置</a><br>
                     </div>
                 </div>
             </div>
 
             <div data-options="region:'center'">
                <div id="tabs" class="easyui-tabs" style="width:100%;height:100%;">
-                    <div title="首页" style="padding:20px;display:none;">
+                    <div title="首页" style="padding:10px;display:none;">
                         tab1
                     </div>
                 </div>
