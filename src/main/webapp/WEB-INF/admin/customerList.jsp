@@ -146,7 +146,7 @@
 
     <script type="text/javascript">
         new PCAS("province","city","area");
-
+        var fm = $('#fm');
         $.extend($.fn.textbox.methods, {
             addClearBtn: function(jq, iconCls){
                 return jq.each(function(){
@@ -190,15 +190,16 @@
 
         var url;
         function newUser(){
-            $('#fm').form('reset');
+            fm.form('reset');
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','信息录入');
             url =  "${pageContext.request.contextPath}/admin/addCustomer.do";
         }
         function editUser(){
+            fm.form('close');
             var row = $('#dg').datagrid('getSelected');
             if (row){
                 $('#dlg').dialog('open').dialog('center').dialog('setTitle','信息编辑');
-                $('#fm').form('load',row);
+                fm.form('load',row);
                 url = "${pageContext.request.contextPath}/admin/updateCustomer.do?id=" + row.id;
             }
         }
@@ -225,7 +226,7 @@
 
         function closeDialog() {
             $('#dlg').dialog('close');        // close the dialog
-            $('#fm').form('clear');
+            fm.form('clear');
         }
 
         function submitData() {
