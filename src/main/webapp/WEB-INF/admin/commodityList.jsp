@@ -12,16 +12,37 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/jquery-easyui/themes/bootstrap/easyui.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/jquery-easyui/themes/icon.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/jquery-easyui/themes/color.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/jquery.fileupload.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/jquery.fileupload-ui.css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery-easyui/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery-easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
     <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/static/js/PCASClass.js"></script>
+    <script src="${pageContext.request.contextPath}/static/js/vendor/jquery.ui.widget.js"></script>
+    <script src="${pageContext.request.contextPath}/static/js/jquery.iframe-transport.js"></script>
+    <script src="${pageContext.request.contextPath}/static/js/jquery.fileupload.js"></script>
+
     <style>
         .f1{
             width:200px;
         }
     </style>
     <script>
+        function statusFormatter(value) {
+            switch (value){
+                case 0:
+                    return "待拍卖";
+                case 1:
+                    return "正在拍卖";
+                case 2:
+                    return "成交";
+                case 3:
+                    return "流拍";
+                case 4:
+                    return "其他"
+            }
+        }
+
         function DateFormatter(value){
             if(value == null || value.trim() == ""){
                 return "";
@@ -53,90 +74,107 @@
                 return "女";
             }
         }
+
+        function remove(value) {
+            $(value).remove();
+        }
+
+        $(function () {
+            $('#fileupload').fileupload({
+                dataType: 'json',
+                sequentialUploads: true
+            }).bind('fileuploadprogress', function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $("#uploadProgress").css('width',progress + '%');
+                $("#uploadProgress").html(progress + '%');
+            }).bind('fileuploaddone', function (e, data) {
+                var img = "<img src='${pageContext.request.contextPath}/" + data.result.result +"'onclick='remove(this)' style='height: 60px;width: 50px'/>";
+                $("#imgList").append(img);
+
+            });
+        });
     </script>
 </head>
 <body>
     <div style="margin:5px 0;"></div>
 
-    <table id="dg" class="easyui-datagrid" title="客户信息" style="width:100%;height:100%"
+    <table id="dg" class="easyui-datagrid" title="商品列表" style="width:100%;height:100%"
            toolbar="#toolbar" data-options="pageSize:20,rownumbers:true,fitColumns:true,pagination:true,singleSelect:true,collapsible:true,
-           url:'${pageContext.request.contextPath}/admin/findCustomer.do',method:'get'">
+           url:'${pageContext.request.contextPath}/admin/findCommodity.do',method:'get'">
         <thead>
         <tr>
-            <th data-options="field:'name',align:'center'">姓名</th>
-            <th data-options="field:'gender',align:'center',formatter:genderFormatter">性别</th>
-            <th data-options="field:'phone',align:'center'">手机</th>
-            <th data-options="field:'idcard',align:'center'">身份证号</th>
-            <th data-options="field:'email',align:'center'">邮箱</th>
-            <th data-options="field:'address',align:'center'">地址</th>
-            <th data-options="field:'birth',align:'center',formatter:DateFormatter">出生日期</th>
-            <th data-options="field:'registrationTime',align:'center',formatter:DateTimeFormatter">登记日期</th>
-            <th data-options="field:'updateTime',align:'center',formatter:DateTimeFormatter">修改日期</th>
+            <th data-options="field:'commodityName',align:'center'">名称</th>
+            <th data-options="field:'typeName',align:'center'">分类</th>
+            <th data-options="field:'appraisedPrice',align:'center'">估价</th>
+            <th data-options="field:'reservePrice',align:'center'">保留价</th>
+            <th data-options="field:'startingPrice',align:'center'">起拍价</th>
+            <th data-options="field:'bidIncrements',align:'center'">竞价增幅</th>
+            <th data-options="field:'biddingDeposit',align:'center'">保证金</th>
+            <th data-options="field:'hammerPrice',align:'center'">成交价</th>
+            <th data-options="field:'customerName',align:'center'">来源</th>
+            <th data-options="field:'status',align:'center',formatter:statusFormatter">状态</th>
+            <th data-options="field:'startTime',align:'center',formatter:DateTimeFormatter">开始时间</th>
+            <th data-options="field:'endTime',align:'center',formatter:DateTimeFormatter">结束时间</th>
         </tr>
         </thead>
     </table>
     <div id="toolbar">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">新客户登记</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">商品登记</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">下架</a>
         <div style="width: 220px;float: right;margin-right: 10px">
             <input id="search" class="easyui-textbox"  style="width: 100%" data-options="buttonText:'查询',onClickButton:doSearch,buttonAlign:'left',buttonIcon:'icon-search'"/>
         </div>
     </div>
     <div id="dlg" class="easyui-dialog" style="width:600px" closed="true" buttons="#dlg-buttons">
         <form id="fm">
-            <table style="margin:0;padding:20px 50px">
-                <tr>
-                    <td>姓名:</td>
-                    <td><input id="name" name="name" class="f1 easyui-textbox"/></td>
-                </tr>
-                <tr>
-                    <td>性别:</td>
-                    <td>
-                        <input name="gender" type="radio" value="0" checked="checked"/>男
-                        <input name="gender" type="radio" value="1" >女
-                    </td>
-                </tr>
-                <tr>
-                    <td>出生日期:</td>
-                    <td>
-                        <input id="birth" name="birth" class="easyui-datebox"   style="width:50%;">
-                    </td>
-                </tr>
-                <tr>
-                    <td>身份证号:</td>
-                    <td><input id="IDCard" name="idcard" class="f1 easyui-textbox"/></td>
-                </tr>
-                <tr>
-                    <td>Email:</td>
-                    <td><input id="email" name="email" class="f1 easyui-textbox"/></td>
-                </tr>
-                <tr>
-                    <td>手机:</td>
-                    <td><input id="phone" name="phone" class="f1 easyui-textbox"/></td>
-                </tr>
-                <tr>
-                    <td>地址:</td>
-                    <td>
-                        <select id="province" name="province"></select>
-                        <select id="city" name="city"></select>
-                        <select id="area" name="area"></select><br>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <input id="address" name="address" class="easyui-textbox"  multiline="true"  style="width:100%;height:120px">
-                    </td>
-                </tr>
-                <%--<tr>--%>
-                    <%--<td></td>--%>
-                    <%--<td>--%>
-                        <%--&lt;%&ndash;<a href="javascript:submitData()" class="easyui-linkbutton" data-options="toggle:true,plain:true">提交</a>&ndash;%&gt;--%>
-                        <%--<span id="result"></span>--%>
-                    <%--</td>--%>
-                <%--</tr>--%>
-            </table>
+            <div  style="width:100%;max-width: 400px;padding:30px 60px;">
+                <div style="margin-bottom:10px">
+                    <input id="name" name="name" class="f1 easyui-textbox"
+                           data-options="label: '商品名:', labelPosition: 'top'"/>
+                </div>
+                <div style="margin-bottom:10px;">
+                    <input class="easyui-combobox" name="language"
+                           data-options="
+                                 label:'所属分类:',
+                                 labelPosition: 'top',
+                                 url:'${pageContext.request.contextPath}/admin/findAllType.do',
+                                 method:'get',
+                                 valueField:'id',
+                                 textField:'typeName',
+                                 panelHeight:'auto'
+                            ">
+                </div>
+                <div style="margin-bottom:10px;float: left">
+                    <input id="provider" name="provider" class="easyui-combobox"
+                           data-options="
+                                 label:'来源:',
+                                 labelPosition: 'top',
+                                 url:'${pageContext.request.contextPath}/admin/findAllType.do',
+                                 method:'get',
+                                 valueField:'id',
+                                 textField:'typeName',
+                                 panelHeight:'auto'
+                            ">
+                </div>
+                <div style="margin-bottom:10px;float: left;margin-left: 10px">
+                                <input id="reservePrice" name="reservePrice" class="easyui-textbox"
+                                       data-options="label: '保留价:', labelPosition: 'top'" >(¥/元)
+                </div>
+                <div style="margin-bottom:10px;">
+                    <input id="fileupload" type="file"  name="files[]"  data-url="${pageContext.request.contextPath}/upload.do" multiple>
+                </div>
+
+                <div id="imgList">
+                    <div class="progress progress-striped active" role="progressbar" aria-valuemin="10" aria-valuemax="100" aria-valuenow="0">
+                        <div id="uploadProgress" class="progress-bar progress-bar-success" style="width:0;background-color: #00bbee"></div>
+                    </div>
+                </div>
+                <div style="margin-bottom:10px">
+                    <input id="description" name="description" class="easyui-textbox" style="width:100%"
+                   data-options="label: '商品描述:', labelPosition: 'top',multiline:true" >
+                </div>
+            </div>
         </form>
     </div>
     <div id="dlg-buttons">
@@ -190,7 +228,7 @@
 
         var url;
         function newUser(){
-            fm.form('reset');
+           // fm.form('reset');
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','信息录入');
             url =  "${pageContext.request.contextPath}/admin/addCustomer.do";
         }
@@ -268,6 +306,8 @@
                 "json"
             );
         }
+
+
     </script>
 
 </body>

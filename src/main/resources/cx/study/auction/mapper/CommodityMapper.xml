@@ -12,18 +12,48 @@
     <result column="starting_price" property="startingPrice" jdbcType="DECIMAL" />
     <result column="bid_increments" property="bidIncrements" jdbcType="DECIMAL" />
     <result column="hammer_price" property="hammerPrice" jdbcType="DECIMAL" />
-    <result column="bidding_deposit " property="biddingDeposit " jdbcType="DECIMAL" />
+    <result column="bidding_deposit" property="biddingDeposit" jdbcType="DECIMAL" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
     <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
     <result column="registration_time" property="registrationTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+    <resultMap id="CommodityListResultMap" type="cx.study.auction.vo.CommodityVo" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="commodity_name" property="commodityName" jdbcType="VARCHAR" />
+        <result column="type_id" property="typeId" jdbcType="INTEGER" />
+        <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+        <result column="customer_Name" property="customerName" jdbcType="VARCHAR" />
+        <result column="appraised_price" property="appraisedPrice" jdbcType="DECIMAL" />
+        <result column="reserve_price" property="reservePrice" jdbcType="DECIMAL" />
+        <result column="starting_price" property="startingPrice" jdbcType="DECIMAL" />
+        <result column="bid_increments" property="bidIncrements" jdbcType="DECIMAL" />
+        <result column="hammer_price" property="hammerPrice" jdbcType="DECIMAL" />
+        <result column="bidding_deposit" property="biddingDeposit" jdbcType="DECIMAL" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+        <result column="registration_time" property="registrationTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
   <sql id="Base_Column_List" >
     id, commodity_name, type_id, description, customer_id, appraised_price, reserve_price, 
     starting_price, bid_increments, hammer_price, bidding_deposit , status, start_time, 
     end_time, registration_time, update_time
   </sql>
+
+  <select id="findCommodity" resultMap="CommodityListResultMap" parameterType="cx.study.auction.query.CommodityQuery">
+    SELECT co.id, commodity_name, type_id, type_name,co.description, customer_id, cu.name customer_name,appraised_price, reserve_price,
+    starting_price, bid_increments, hammer_price, bidding_deposit, status, start_time,
+    end_time, co.registration_time, co.update_time
+    FROM  commodity co, commodity_type ct, customer cu
+    where co.type_id = ct.id AND co.customer_id = cu.id
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

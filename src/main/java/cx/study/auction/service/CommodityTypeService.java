@@ -1,9 +1,13 @@
-package cx.study.auction.mapper;
+package cx.study.auction.service;
 
 import cx.study.auction.pojo.CommodityType;
 
 import java.util.List;
 
-public interface CommodityTypeMapper {
+/**
+ *
+ * Created by AMOBBS on 2017/2/18.
+ */
+public interface CommodityTypeService {
     List<CommodityType> findAll() throws Exception;
 }

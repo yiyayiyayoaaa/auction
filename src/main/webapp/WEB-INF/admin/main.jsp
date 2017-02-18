@@ -50,8 +50,8 @@
             <div data-options="region:'west',split:true" title="导航菜单" style="width:250px;">
                 <div class="easyui-accordion" data-options="fit:false,border:false">
                     <div title="商品管理" style="padding:10px;">
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">商品列表</a><br>
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">分类管理</a><br>
+                        <a href="javascript:openTab('商品列表','${pageContext.request.contextPath}/admin/commodityList.do')" class="easyui-linkbutton" data-options="plain:true">商品列表</a><br>
+                        <a href="javascript:openTab('分类管理','${pageContext.request.contextPath}/admin/commodityList.do')" class="easyui-linkbutton" data-options="plain:true">分类管理</a><br>
                     </div>
                     <div title="交易管理"  style="padding:10px;">
                         <a href="#" class="easyui-linkbutton" data-options="plain:true">交易信息</a><br>

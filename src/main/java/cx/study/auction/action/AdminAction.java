@@ -23,6 +23,10 @@ public class AdminAction {
 
     @RequestMapping("/login")
     public String login(String username, String password, HttpSession session, HttpServletRequest request) throws Exception{
+        Object loginAdmin1 = request.getSession().getAttribute("loginAdmin");
+        if(loginAdmin1 != null){
+            return "admin/main";
+        }
         Admin admin = new Admin();
         admin.setUsername(username);
         admin.setPassword(password);
