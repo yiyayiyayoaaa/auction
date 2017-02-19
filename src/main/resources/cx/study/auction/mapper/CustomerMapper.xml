@@ -17,7 +17,10 @@
   <sql id="Base_Column_List" >
     id, name, gender, birth, IDCard, phone, email, address, registration_time, update_time
   </sql>
-
+    <select id="findAllCustomer" resultType="cx.study.auction.vo.CustomerAllVo">
+        SELECT id,concat(name,'-',phone) cname
+        FROM customer
+    </select>
     <select id="findCustomer" resultMap="BaseResultMap" parameterType="cx.study.auction.query.CustomerQuery">
         SELECT id,name, gender, birth, IDCard, phone, email, address, registration_time, update_time
         FROM customer

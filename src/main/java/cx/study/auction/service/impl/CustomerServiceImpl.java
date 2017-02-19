@@ -4,6 +4,7 @@ import cx.study.auction.mapper.CustomerMapper;
 import cx.study.auction.pojo.Customer;
 import cx.study.auction.query.CustomerQuery;
 import cx.study.auction.service.CustomerService;
+import cx.study.auction.vo.CustomerAllVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -38,5 +39,10 @@ public class CustomerServiceImpl implements CustomerService{
 
     public int deleteCustomerById(Integer id) {
         return customerMapper.deleteCustomerById(id);
+    }
+
+    @Override
+    public List<CustomerAllVo> findAllCustomer() {
+        return customerMapper.findAllCustomer();
     }
 }

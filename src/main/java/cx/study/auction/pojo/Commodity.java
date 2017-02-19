@@ -14,17 +14,17 @@ public class Commodity {
 
     private Integer customerId;
 
-    private BigDecimal appraisedPrice;
+    private double appraisedPrice;
 
-    private BigDecimal reservePrice;
+    private double reservePrice;
 
-    private BigDecimal startingPrice;
+    private double startingPrice;
 
-    private BigDecimal bidIncrements;
+    private double bidIncrements;
 
-    private BigDecimal hammerPrice;
+    private double hammerPrice;
 
-    private BigDecimal biddingDeposit;
+    private double biddingDeposit;
 
     private Integer status;
 
@@ -76,51 +76,51 @@ public class Commodity {
         this.customerId = customerId;
     }
 
-    public BigDecimal getAppraisedPrice() {
+    public double getAppraisedPrice() {
         return appraisedPrice;
     }
 
-    public void setAppraisedPrice(BigDecimal appraisedPrice) {
+    public void setAppraisedPrice(double appraisedPrice) {
         this.appraisedPrice = appraisedPrice;
     }
 
-    public BigDecimal getReservePrice() {
+    public double getReservePrice() {
         return reservePrice;
     }
 
-    public void setReservePrice(BigDecimal reservePrice) {
+    public void setReservePrice(double reservePrice) {
         this.reservePrice = reservePrice;
     }
 
-    public BigDecimal getStartingPrice() {
+    public double getStartingPrice() {
         return startingPrice;
     }
 
-    public void setStartingPrice(BigDecimal startingPrice) {
+    public void setStartingPrice(double startingPrice) {
         this.startingPrice = startingPrice;
     }
 
-    public BigDecimal getBidIncrements() {
+    public double getBidIncrements() {
         return bidIncrements;
     }
 
-    public void setBidIncrements(BigDecimal bidIncrements) {
+    public void setBidIncrements(double bidIncrements) {
         this.bidIncrements = bidIncrements;
     }
 
-    public BigDecimal getHammerPrice() {
+    public double getHammerPrice() {
         return hammerPrice;
     }
 
-    public void setHammerPrice(BigDecimal hammerPrice) {
+    public void setHammerPrice(double hammerPrice) {
         this.hammerPrice = hammerPrice;
     }
 
-    public BigDecimal getBiddingDeposi() {
+    public double getBiddingDeposit() {
         return biddingDeposit;
     }
 
-    public void setBiddingDeposit(BigDecimal biddingDeposit) {
+    public void setBiddingDeposit(double biddingDeposit) {
         this.biddingDeposit = biddingDeposit;
     }
 

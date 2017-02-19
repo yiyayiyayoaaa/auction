@@ -17,7 +17,6 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery-easyui/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery-easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
-    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/static/js/PCASClass.js"></script>
     <script src="${pageContext.request.contextPath}/static/js/vendor/jquery.ui.widget.js"></script>
     <script src="${pageContext.request.contextPath}/static/js/jquery.iframe-transport.js"></script>
     <script src="${pageContext.request.contextPath}/static/js/jquery.fileupload.js"></script>
@@ -127,53 +126,51 @@
         </div>
     </div>
     <div id="dlg" class="easyui-dialog" style="width:600px" closed="true" buttons="#dlg-buttons">
-        <form id="fm">
-            <div  style="width:100%;max-width: 400px;padding:30px 60px;">
-                <div style="margin-bottom:10px">
-                    <input id="name" name="name" class="f1 easyui-textbox"
-                           data-options="label: '商品名:', labelPosition: 'top'"/>
-                </div>
-                <div style="margin-bottom:10px;">
-                    <input class="easyui-combobox" name="language"
-                           data-options="
-                                 label:'所属分类:',
-                                 labelPosition: 'top',
-                                 url:'${pageContext.request.contextPath}/admin/findAllType.do',
-                                 method:'get',
-                                 valueField:'id',
-                                 textField:'typeName',
-                                 panelHeight:'auto'
-                            ">
-                </div>
-                <div style="margin-bottom:10px;float: left">
-                    <input id="provider" name="provider" class="easyui-combobox"
-                           data-options="
-                                 label:'来源:',
-                                 labelPosition: 'top',
-                                 url:'${pageContext.request.contextPath}/admin/findAllType.do',
-                                 method:'get',
-                                 valueField:'id',
-                                 textField:'typeName',
-                                 panelHeight:'auto'
-                            ">
-                </div>
-                <div style="margin-bottom:10px;float: left;margin-left: 10px">
-                                <input id="reservePrice" name="reservePrice" class="easyui-textbox"
-                                       data-options="label: '保留价:', labelPosition: 'top'" >(¥/元)
-                </div>
-                <div style="margin-bottom:10px;">
-                    <input id="fileupload" type="file"  name="files[]"  data-url="${pageContext.request.contextPath}/upload.do" multiple>
-                </div>
+        <form id="fm" style="width:100%;max-width: 400px;padding:30px 60px;">
+            <div style="margin-bottom:10px">
+                <input id="name" name="commodityName" class="f1 easyui-textbox"
+                       data-options="label: '商品名:', labelPosition: 'top'"/>
+            </div>
+            <div style="margin-bottom:10px;">
+                <input class="easyui-combobox" name="typeName" id="type"
+                       data-options="
+                             label:'所属分类:',
+                             labelPosition: 'top',
+                             url:'${pageContext.request.contextPath}/admin/findAllType.do',
+                             method:'get',
+                             valueField:'id',
+                             textField:'typeName',
+                             panelHeight:'auto'
+                        ">
+            </div>
+            <div style="margin-bottom:10px;float: left">
+                <input id="provider" name="customerName" class="easyui-combobox"
+                       data-options="
+                             label:'来源:',
+                             labelPosition: 'top',
+                             url:'${pageContext.request.contextPath}/admin/findAllCustomer.do',
+                             method:'get',
+                             valueField:'id',
+                             textField:'cname',
+                             panelHeight:'auto'
+                        ">
+            </div>
+            <div style="margin-bottom:10px;float: left;margin-left: 10px">
+                            <input id="reservePrice" name="reservePrice" class="easyui-textbox"
+                                   data-options="label: '保留价:', labelPosition: 'top'" >(¥/元)
+            </div>
+            <div style="margin-bottom:10px;">
+                <input id="fileupload" type="file"  name="files[]"  data-url="${pageContext.request.contextPath}/upload.do" multiple>
+            </div>
 
-                <div id="imgList">
-                    <div class="progress progress-striped active" role="progressbar" aria-valuemin="10" aria-valuemax="100" aria-valuenow="0">
-                        <div id="uploadProgress" class="progress-bar progress-bar-success" style="width:0;background-color: #00bbee"></div>
-                    </div>
+            <div id="imgList">
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="10" aria-valuemax="100" aria-valuenow="0">
+                    <div id="uploadProgress" class="progress-bar progress-bar-success" style="width:0;background-color: #00bbee"></div>
                 </div>
-                <div style="margin-bottom:10px">
-                    <input id="description" name="description" class="easyui-textbox" style="width:100%"
-                   data-options="label: '商品描述:', labelPosition: 'top',multiline:true" >
-                </div>
+            </div>
+            <div style="margin-bottom:10px">
+                <input id="description" name="description" class="easyui-textbox" style="width:100%"
+               data-options="label: '商品描述:', labelPosition: 'top',multiline:true" >
             </div>
         </form>
     </div>
@@ -183,7 +180,6 @@
     </div>
 
     <script type="text/javascript">
-        new PCAS("province","city","area");
         var fm = $('#fm');
         $.extend($.fn.textbox.methods, {
             addClearBtn: function(jq, iconCls){
@@ -227,12 +223,21 @@
         }
 
         var url;
+
+        function clearImgStatus() {
+            $("#imgList").children("img").each(function (i) {
+                $(this).remove();
+            });
+            $("#uploadProgress").css('width',0 + '%');
+        }
         function newUser(){
-           // fm.form('reset');
+            clearImgStatus();
+            fm.form('reset');
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','信息录入');
-            url =  "${pageContext.request.contextPath}/admin/addCustomer.do";
+            url =  "${pageContext.request.contextPath}/admin/addCommodity.do";
         }
         function editUser(){
+            clearImgStatus();
             fm.form('reset');
             var row = $('#dg').datagrid('getSelected');
             if (row){
@@ -269,28 +274,25 @@
 
         function submitData() {
             var name = $("#name").val();
-            var gender = $('input:radio:checked').val();
-            var birth = $("#birth").val();
-            var IDCard = $("#IDCard").val();
-            var phone = $("#phone").val();
-            var email = $("#email").val();
-            var province = $("#province").val();
-            var city = $("#city").val();
-            var area = $("#area").val();
-            var address = province==null?"":province
-                + " " + city==null?"":city
-                + " " + area==null?"":area
-                + " " + $("#address").val();
+            var type = $("#type").val();
+            var provider = $("#provider").val();
+            var reservePrice = $("#reservePrice").val();
+            var images = "";
+            var $images = $("#imgList");
+            $images.find("img").each(function(i){
+                images = images + $(this).attr("src") + ",";
+            });
+            images = images.substring(0,images.length-1);
+            var description = $("#description").val();
             $.post(
                url,
                 {
                     name:name,
-                    gender:gender,
-                    birth:birth,
-                    IDCard:IDCard,
-                    phone:phone,
-                    email:email,
-                    address:address
+                    typeId:type,
+                    customerId:provider,
+                    reservePrice:reservePrice,
+                    images:images,
+                    description:description
                 } ,
                 function (data) {
                     if (data.resultCode == 0){
@@ -306,8 +308,6 @@
                 "json"
             );
         }
-
-
     </script>
 
 </body>

@@ -6,6 +6,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang.time.DateUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -24,5 +25,15 @@ public class RequestUtil {
     }
     public static String getString(HttpServletRequest request,String parameter){
         return request.getParameter(parameter);
+    }
+
+    public static float getFloat(HttpServletRequest request,String parameter){
+        String param = request.getParameter(parameter);
+        return StringUtils.isBlank(param)? 0f :NumberUtils.createFloat(param);
+    }
+
+    public static double getBigDecimal(HttpServletRequest request, String parameter){
+        String param = request.getParameter(parameter);
+        return StringUtils.isBlank(param)? 0d :NumberUtils.createDouble(param);
     }
 }

@@ -7,6 +7,7 @@ import cx.study.auction.query.CustomerQuery;
 import cx.study.auction.service.CustomerService;
 import cx.study.auction.util.RequestUtil;
 import cx.study.auction.util.ResponseUtil;
+import cx.study.auction.vo.CustomerAllVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -60,12 +61,19 @@ public class CustomerAction {
         query.setIdcard(key);
         query.setName(key);
         List<Customer> customerList = customerService.findCustomer(query);
-        Map<String,Object> map = new HashMap<String, Object>();
+        Map<String,Object> map = new HashMap<>();
         map.put("rows",customerList);
         map.put("total",customerList.size());
         String result = new Gson().toJson(map);
         ResponseUtil.writeJson(response,result);
     }
+
+    @RequestMapping("/findAllCustomer")
+    public void findAllCustomer(HttpServletResponse response) throws Exception{
+        List<CustomerAllVo> list = customerService.findAllCustomer();
+        ResponseUtil.writeJson(response,new Gson().toJson(list));
+    }
+
 
     @RequestMapping("/updateCustomer")
     public void updateCustomer(HttpServletResponse response,HttpServletRequest request) throws Exception {
