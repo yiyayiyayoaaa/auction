@@ -30,14 +30,16 @@
         function statusFormatter(value) {
             switch (value){
                 case 0:
-                    return "待拍卖";
+                    return "已登记";
                 case 1:
-                    return "正在拍卖";
+                    return "待拍卖";
                 case 2:
-                    return "成交";
+                    return "正在拍卖";
                 case 3:
-                    return "流拍";
+                    return "成交";
                 case 4:
+                    return "流拍";
+                case 5:
                     return "其他"
             }
         }
@@ -120,11 +122,14 @@
     <div id="toolbar">
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">商品登记</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="toAuction()">进入拍卖</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">停止拍卖</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">下架</a>
         <div style="width: 220px;float: right;margin-right: 10px">
             <input id="search" class="easyui-textbox"  style="width: 100%" data-options="buttonText:'查询',onClickButton:doSearch,buttonAlign:'left',buttonIcon:'icon-search'"/>
         </div>
     </div>
+
     <div id="dlg" class="easyui-dialog" style="width:600px" closed="true" buttons="#dlg-buttons">
         <form id="fm" style="width:100%;max-width: 400px;padding:30px 60px;">
             <div style="margin-bottom:10px">
@@ -179,8 +184,47 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="closeDialog()" style="width:90px">取消</a>
     </div>
 
+    <div id="dlg2" class="easyui-dialog" style="width:600px" closed="true" buttons="#dlg2-buttons">
+        <form id="fm2" style="width:100%;max-width: 400px;padding:30px 60px;">
+            <div style="margin-bottom:10px">
+                <input name="commodityName" class="f1 easyui-textbox" readonly
+                       data-options="label: '商品名:', labelPosition: 'top'"/>
+            </div>
+            <div style="margin-bottom:10px;float: left;">
+                <input id="appraisedPrice" name="appraisedPrice" class="easyui-textbox"
+                       data-options="label: '估价:', labelPosition: 'top'" >(¥/元)
+            </div>
+            <div style="margin-bottom:10px;margin-left: 10px">
+                <input id="startingPrice" name="startingPrice" class="easyui-textbox"
+                       data-options="label: '起拍价:', labelPosition: 'top'" >(¥/元)
+            </div>
+            <div style="margin-bottom:10px;float: left;">
+                <input id="bidIncrements" name="bidIncrements" class="easyui-textbox"
+                       data-options="label: '竞价增幅:', labelPosition: 'top'" >(¥/元)
+            </div>
+            <div style="margin-bottom:10px;margin-left: 10px">
+                <input id="biddingDeposit" name="biddingDeposit" class="easyui-textbox"
+                       data-options="label: '保证金:', labelPosition: 'top'" >(¥/元)
+            </div>
+            <div style="margin-bottom:10px;float: left;">
+                <input id="startTime" name="startTime" class="easyui-datetimebox"
+                       data-options="label: '开始时间:', labelPosition: 'top'" >
+            </div>
+            <div style="margin-bottom:10px;margin-left: 10px">
+                <input id="endTime" name="endTime" class="easyui-datetimebox"
+                       data-options="label: '结束时间:', labelPosition: 'top'" >
+            </div>
+        </form>
+    </div>
+    <div id="dlg2-buttons">
+        <a id="set" href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok"  onclick="submitData()" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="closeDialog()" style="width:90px">取消</a>
+    </div>
+
+
     <script type="text/javascript">
         var fm = $('#fm');
+        var fm2 = $('#fm2');
         $.extend($.fn.textbox.methods, {
             addClearBtn: function(jq, iconCls){
                 return jq.each(function(){
@@ -230,6 +274,15 @@
             });
             $("#uploadProgress").css('width',0 + '%');
         }
+
+        function toAuction() {
+            var row = $('#dg').datagrid('getSelected');
+            if(row){
+                $("#dlg2").dialog('open').dialog("center").dialog("setTitle","设置拍卖信息");
+                fm2.form('load',row);
+            }
+        }
+
         function newUser(){
             clearImgStatus();
             fm.form('reset');
@@ -242,7 +295,7 @@
             var row = $('#dg').datagrid('getSelected');
             if (row){
                 $('#dlg').dialog('open').dialog('center').dialog('setTitle','信息编辑');
-                fm.form('load',row);
+
                 url = "${pageContext.request.contextPath}/admin/updateCustomer.do?id=" + row.id;
             }
         }

@@ -1,4 +1,4 @@
-#基于WEB的网上拍卖系统
+#网上拍卖系统的设计与实现
 ###技术选型
     * 服务器：阿里云ECS+Tomcat7
     * 后端开发语言：Java
@@ -17,11 +17,15 @@
 	    > 我的拍卖：该功能主要是查看自己正在参与的拍卖，以及曾经的拍卖纪录。
 	    > 个人信息：主要是显示自己个人信息，以及可以对相关信息进行修改。
 	    > 充值：
-	* 后台管理模块：后台管理模块面向管理员，该模块的主要功能分为：登录、商品管理、用户管理、拍卖信息管理、管理员管理等。
+	* 后台管理模块：后台管理模块面向管理员，该模块的主要功能分为：登录、商品管理、用户管理、交易管理、消息管理、管理员管理、系统管理等。
 	    > 登录：管理员必须登录才能进行操作。账号密码由超级管理员提供，没有注册功能。
-	    > 用户管理：普通管理员只拥有查询用户权限，超级管理员能够对用户进行增删改查操作。
-	    > 商品管理：普通管理员只拥有商品的增加、查询和修改权限，超级管理员能够对商品进行增删改查操作。
-	    > 订单管理：普通管理员
+	    > 用户管理：用户分为客户与用户两种，客户指的是拍卖品的提供者，用户指的是拍卖的参与者 。
+	                主要功能为客户列表，用户列表及账户管理。
+	    > 商品管理：添加、修改商品信息，进入拍卖、下架等功能及分类管理。
+	    > 交易管理：分为交易信息和订单管理。拍卖成功后订单的信息状态及相关操作。
+	    > 消息管理：用户的建议及留言等。
+	    > 管理员管理：超级管理员特有功能。对管理员进行操作。
+	    > 系统管理：系统设置。
 ###数据模型
 	商品 Commodity
 <table>
@@ -42,7 +46,7 @@
 		<td align="center">商品ID</td>
 	</tr>
 	<tr>
-		<td align="center">cname</td>
+		<td align="center">commodity_name</td>
 		<td align="center">varchar</td>
 		<td align="center">50</td>
 		<td align="center"></td>
@@ -57,7 +61,7 @@
 		<td align="center"></td>
 		<td align="center">商品描述</td>
 	<tr>
-		<td align="center">tid</td>
+		<td align="center">type_id</td>
 		<td align="center">int</td>
 		<td align="center"></td>
 		<td align="center"></td>
@@ -71,7 +75,7 @@
 		<td align="center">√</td>
 		<td align="center">商品底价</td>
 	<tr>
-		<td align="center">increments</td>
+		<td align="center">bid_increments</td>
 		<td align="center">double</td>
 		<td align="center"></td>
 		<td align="center"></td>
@@ -85,7 +89,7 @@
 		<td align="center"></td>
 		<td align="center">商品估价</td>
 	<tr>
-		<td align="center">deposit</td>
+		<td align="center">bidding_deposit</td>
 		<td align="center">double</td>
 		<td align="center"></td>
 		<td align="center"></td>

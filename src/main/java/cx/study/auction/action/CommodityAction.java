@@ -10,6 +10,7 @@ import cx.study.auction.service.CommodityService;
 import cx.study.auction.util.RequestUtil;
 import cx.study.auction.util.ResponseUtil;
 import org.apache.commons.lang.StringUtils;
+import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -70,7 +71,7 @@ public class CommodityAction {
 
     private List<CommodityImage> getImagesByRequest(HttpServletRequest request){
         String images = RequestUtil.getString(request,"images");
-        if(StringUtils.isNotBlank(images)){
+        if(StringUtils.isNotBlank(images)){ 
             String[] urls = images.split(",");
             List<CommodityImage> commodityImages = new ArrayList<>(urls.length);
             for (String url:urls){
@@ -98,4 +99,5 @@ public class CommodityAction {
         commodity.setStatus(0);
         return commodity;
     }
+
 }
