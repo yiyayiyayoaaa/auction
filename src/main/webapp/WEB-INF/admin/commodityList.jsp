@@ -40,7 +40,9 @@
                 case 4:
                     return "流拍";
                 case 5:
-                    return "其他"
+                    return "其他";
+                case 6:
+                    return "下架";
             }
         }
 
@@ -121,10 +123,10 @@
     </table>
     <div id="toolbar">
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">商品登记</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改</a>
+        <%--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改</a>--%>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="toAuction()">进入拍卖</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">停止拍卖</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">下架</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="commodityOn()">上架</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="commodityOff()">下架</a>
         <div style="width: 220px;float: right;margin-right: 10px">
             <input id="search" class="easyui-textbox"  style="width: 100%" data-options="buttonText:'查询',onClickButton:doSearch,buttonAlign:'left',buttonIcon:'icon-search'"/>
         </div>
@@ -217,8 +219,8 @@
         </form>
     </div>
     <div id="dlg2-buttons">
-        <a id="set" href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok"  onclick="submitData()" style="width:90px">保存</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="closeDialog()" style="width:90px">取消</a>
+        <a id="set" href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok"  onclick="auction()" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="closeDialog2()" style="width:90px">取消</a>
     </div>
 
 
@@ -281,6 +283,7 @@
                 $("#dlg2").dialog('open').dialog("center").dialog("setTitle","设置拍卖信息");
                 fm2.form('load',row);
             }
+            url = "${pageContext.request.contextPath}/admin/auction.do?id=" + row.id;
         }
 
         function newUser(){
@@ -299,11 +302,32 @@
                 url = "${pageContext.request.contextPath}/admin/updateCustomer.do?id=" + row.id;
             }
         }
-        function destroyUser(){
-            url = "${pageContext.request.contextPath}/admin/deleteCustomer.do";
+        function commodityOn() {
+            url = "${pageContext.request.contextPath}/admin/commodityOn.do";
             var row = $('#dg').datagrid('getSelected');
-            if (row){
-                $.messager.confirm('警告','你确定要删除该数据?',function(r){
+            if (row.status == 6){
+                $.messager.confirm('警告','你确定要上架该商品?',function(r){
+                    if (r){
+                        $.post(url,{id:row.id},function(data){
+                            if (data.resultCode == 1){
+                                $('#dg').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.show({    // show error message
+                                    title: 'Error',
+                                    msg: data.data
+                                });
+                            }
+                        },'json');
+                    }
+                });
+            }
+        }
+
+        function commodityOff(){
+            url = "${pageContext.request.contextPath}/admin/commodityOff.do";
+            var row = $('#dg').datagrid('getSelected');
+            if (row.status != 6){
+                $.messager.confirm('警告','你确定要下架该商品?',function(r){
                     if (r){
                         $.post(url,{id:row.id},function(data){
                             if (data.resultCode == 1){
@@ -321,8 +345,42 @@
         }
 
         function closeDialog() {
-            $('#dlg').dialog('close');        // close the dialog
+            $('#dlg').dialog('close');       // close the dialog
             fm.form('clear');
+        }
+
+        function closeDialog2() {
+            $('#dlg2').dialog('close');       // close the dialog
+            fm2.form('clear');
+        }
+        function auction() {
+            var appraisedPrice = $("#appraisedPrice").val();
+            var startingPrice = $("#startingPrice").val();
+            var bidIncrements = $("#bidIncrements").val();
+            var biddingDeposit = $("#biddingDeposit").val();
+            var startTime = $("#startTime").val();
+            var endTime = $("#endTime").val();
+            $.post(
+                url,
+                {
+                    appraisedPrice:appraisedPrice,
+                    startingPrice:startingPrice,
+                    bidIncrements:bidIncrements,
+                    biddingDeposit:biddingDeposit,
+                    startTime:startTime,
+                    endTime:endTime
+                },function (data) {
+                    if (data.resultCode == 0){
+                        $.messager.show({    // show error message
+                            title: 'Error',
+                            msg: data.data
+                        });
+                    } else {
+                        closeDialog2();
+                        $('#dg').datagrid('reload');    // reload the user data
+                    }
+                },"json"
+            );
         }
 
         function submitData() {

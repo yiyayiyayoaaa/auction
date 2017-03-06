@@ -26,14 +26,14 @@ import java.util.UUID;
 public class UploadAction {
 
     @RequestMapping("/upload")
-    public void upload(HttpServletRequest request, HttpServletResponse response,@RequestParam("file")MultipartFile upFile) throws Exception{
+    public void upload(HttpServletRequest request, HttpServletResponse response,@RequestParam("files[]")MultipartFile upFile) throws Exception{
         String path = request.getSession().getServletContext().getRealPath("file");
         String filename = upFile.getOriginalFilename();
-//        String type = filename.substring(filename.lastIndexOf("."));
-//        filename = UUID.randomUUID().toString().replace("-","") + type;
+        String type = filename.substring(filename.lastIndexOf("."));
+        filename = UUID.randomUUID().toString().replace("-","") + type;
         File file = new File(path,filename);
         if(!file.exists()){
-            file.mkdirs();
+            boolean mkdirs = file.mkdirs();
         }
         upFile.transferTo(file);
         Map<String,String> map = new HashMap<>();

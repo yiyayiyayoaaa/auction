@@ -2,6 +2,7 @@ package cx.study.auction.action;
 
 import com.google.gson.Gson;
 import cx.study.auction.pojo.Commodity;
+import cx.study.auction.pojo.Commodity.CommodityStatus;
 import cx.study.auction.pojo.CommodityImage;
 import cx.study.auction.pojo.ResponseMessage;
 import cx.study.auction.query.CommodityQuery;
@@ -18,6 +19,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -42,7 +44,7 @@ public class CommodityAction {
             query.setRows(rows);
         }
         List<Commodity> list = commodityService.findCommodity(query);
-        Map<String,Object> map = new HashMap<String, Object>();
+        Map<String,Object> map = new HashMap<>();
         map.put("rows",list);
         map.put("total",list.size());
         String result = new Gson().toJson(map);
@@ -55,7 +57,7 @@ public class CommodityAction {
         List<CommodityImage> imageList = getImagesByRequest(request);
         int code = commodityService.addCommodity(commodity,imageList);
        // int code = commodityService.saveImages(imageList,commodity1);
-        ResponseMessage<String> responseMessage = new ResponseMessage<String>();
+        ResponseMessage<String> responseMessage = new ResponseMessage<>();
         if(code == OK){
             responseMessage.setResultCode(OK);
             responseMessage.setData("添加成功！");
@@ -67,7 +69,67 @@ public class CommodityAction {
         ResponseUtil.writeJson(response,result);
     }
 
+    @RequestMapping("/auction")
+    public void auction(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        Integer id = RequestUtil.getInteger(request, "id");
+        double appraisedPrice = RequestUtil.getBigDecimal(request, "appraisedPrice");
+        double startingPrice = RequestUtil.getBigDecimal(request, "startingPrice");
+        double bidIncrements = RequestUtil.getBigDecimal(request, "bidIncrements");
+        double biddingDeposit = RequestUtil.getBigDecimal(request, "biddingDeposit");
+        Date startTime = RequestUtil.getDate(request,"startTime");
+        Date endTime = RequestUtil.getDate(request,"endTime");
+        Commodity commodity = new Commodity();
+        commodity.setId(id);
+        commodity.setAppraisedPrice(appraisedPrice);
+        commodity.setStartingPrice(startingPrice);
+        commodity.setBidIncrements(bidIncrements);
+        commodity.setBiddingDeposit(biddingDeposit);
+        commodity.setStartTime(startTime);
+        commodity.setEndTime(endTime);
+        int code = commodityService.auction(commodity);
+        ResponseMessage<String> responseMessage = new ResponseMessage<>();
+        if(code == OK){
+            responseMessage.setResultCode(OK);
+            responseMessage.setData("设置成功！");
+        }else{
+            responseMessage.setResultCode(ERROR);
+            responseMessage.setData("设置失败！");
+        }
+        String result = new Gson().toJson(responseMessage,ResponseMessage.class);
+        ResponseUtil.writeJson(response,result);
+    }
 
+    @RequestMapping("/commodityOff")
+    public void commodityOff(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        Integer id = RequestUtil.getInteger(request,"id");
+        int code = commodityService.commodityStatusChange(id, CommodityStatus.OFF);
+        ResponseMessage<String> responseMessage = new ResponseMessage<>();
+        if (code == OK){
+            responseMessage.setResultCode(OK);
+            responseMessage.setData("下架成功!");
+        } else {
+            responseMessage.setResultCode(ERROR);
+            responseMessage.setData("下架失败!");
+        }
+        String result = new Gson().toJson(responseMessage,ResponseMessage.class);
+        ResponseUtil.writeJson(response,result);
+    }
+
+    @RequestMapping("/commodityOn")
+    public void commodityOn(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        Integer id = RequestUtil.getInteger(request,"id");
+        int code = commodityService.commodityStatusChange(id, CommodityStatus.REGISTER);
+        ResponseMessage<String> responseMessage = new ResponseMessage<>();
+        if (code == OK){
+            responseMessage.setResultCode(OK);
+            responseMessage.setData("上架成功!");
+        } else {
+            responseMessage.setResultCode(ERROR);
+            responseMessage.setData("上架失败!");
+        }
+        String result = new Gson().toJson(responseMessage,ResponseMessage.class);
+        ResponseUtil.writeJson(response,result);
+    }
 
     private List<CommodityImage> getImagesByRequest(HttpServletRequest request){
         String images = RequestUtil.getString(request,"images");

@@ -42,7 +42,7 @@
 
   <sql id="Base_Column_List" >
     id, commodity_name, type_id, description, customer_id, appraised_price, reserve_price, 
-    starting_price, bid_increments, hammer_price, bidding_deposit , status, start_time, 
+    starting_price, bid_increments, hammer_price, bidding_deposit, status, start_time,
     end_time, registration_time, update_time
   </sql>
 
@@ -65,7 +65,7 @@
     where co.type_id = ct.id AND co.customer_id = cu.id
   </select>
 
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="findCommodityById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from commodity
@@ -79,7 +79,7 @@
     insert into commodity (id, commodity_name, type_id, 
       description, customer_id, appraised_price, 
       reserve_price, starting_price, bid_increments, 
-      hammer_price, bidding_deposit , status, 
+      hammer_price, bidding_deposit, status,
       start_time, end_time, registration_time, 
       update_time)
     values (#{id,jdbcType=INTEGER}, #{commodityName,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, 
@@ -123,7 +123,7 @@
         hammer_price,
       </if>
       <if test="biddingDeposit  != null" >
-        bidding_deposit ,
+        bidding_deposit,
       </if>
       <if test="status != null" >
         status,
@@ -192,7 +192,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cx.study.auction.pojo.Commodity" >
+  <update id="updateCommodity" parameterType="cx.study.auction.pojo.Commodity" >
     update commodity
     <set >
       <if test="commodityName != null" >
@@ -222,8 +222,8 @@
       <if test="hammerPrice != null" >
         hammer_price = #{hammerPrice,jdbcType=DECIMAL},
       </if>
-      <if test="biddingDeposit  != null" >
-        bidding_deposit  = #{biddingDeposit ,jdbcType=DECIMAL},
+      <if test="biddingDeposit != null" >
+        bidding_deposit = #{biddingDeposit,jdbcType=DECIMAL},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -254,7 +254,7 @@
       starting_price = #{startingPrice,jdbcType=DECIMAL},
       bid_increments = #{bidIncrements,jdbcType=DECIMAL},
       hammer_price = #{hammerPrice,jdbcType=DECIMAL},
-      bidding_deposit  = #{biddingDeposit ,jdbcType=DECIMAL},
+      bidding_deposit = #{biddingDeposit,jdbcType=DECIMAL},
       status = #{status,jdbcType=INTEGER},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},

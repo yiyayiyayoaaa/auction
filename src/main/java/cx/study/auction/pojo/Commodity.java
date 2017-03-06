@@ -4,6 +4,15 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Commodity {
+    public interface CommodityStatus{
+        int REGISTER = 0;
+        int WAIT_AUCTION = 1;
+        int AUCTION = 2;
+        int SUCCESS = 3;
+        int UNSOLD = 4;
+        int OTHER = 5;
+        int OFF = 6;
+    }
     private Integer id;
 
     private String commodityName;
@@ -14,17 +23,17 @@ public class Commodity {
 
     private Integer customerId;
 
-    private double appraisedPrice;
+    private Double appraisedPrice;
 
-    private double reservePrice;
+    private Double reservePrice;
 
-    private double startingPrice;
+    private Double startingPrice;
 
-    private double bidIncrements;
+    private Double bidIncrements;
 
-    private double hammerPrice;
+    private Double hammerPrice;
 
-    private double biddingDeposit;
+    private Double biddingDeposit;
 
     private Integer status;
 
@@ -76,51 +85,51 @@ public class Commodity {
         this.customerId = customerId;
     }
 
-    public double getAppraisedPrice() {
+    public Double getAppraisedPrice() {
         return appraisedPrice;
     }
 
-    public void setAppraisedPrice(double appraisedPrice) {
+    public void setAppraisedPrice(Double appraisedPrice) {
         this.appraisedPrice = appraisedPrice;
     }
 
-    public double getReservePrice() {
+    public Double getReservePrice() {
         return reservePrice;
     }
 
-    public void setReservePrice(double reservePrice) {
+    public void setReservePrice(Double reservePrice) {
         this.reservePrice = reservePrice;
     }
 
-    public double getStartingPrice() {
+    public Double getStartingPrice() {
         return startingPrice;
     }
 
-    public void setStartingPrice(double startingPrice) {
+    public void setStartingPrice(Double startingPrice) {
         this.startingPrice = startingPrice;
     }
 
-    public double getBidIncrements() {
+    public Double getBidIncrements() {
         return bidIncrements;
     }
 
-    public void setBidIncrements(double bidIncrements) {
+    public void setBidIncrements(Double bidIncrements) {
         this.bidIncrements = bidIncrements;
     }
 
-    public double getHammerPrice() {
+    public Double getHammerPrice() {
         return hammerPrice;
     }
 
-    public void setHammerPrice(double hammerPrice) {
+    public void setHammerPrice(Double hammerPrice) {
         this.hammerPrice = hammerPrice;
     }
 
-    public double getBiddingDeposit() {
+    public Double getBiddingDeposit() {
         return biddingDeposit;
     }
 
-    public void setBiddingDeposit(double biddingDeposit) {
+    public void setBiddingDeposit(Double biddingDeposit) {
         this.biddingDeposit = biddingDeposit;
     }
 

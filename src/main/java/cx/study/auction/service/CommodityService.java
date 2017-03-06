@@ -7,6 +7,7 @@ import cx.study.auction.query.CommodityQuery;
 import java.util.List;
 
 /**
+ *
  * Created by AMOBBS on 2017/2/18.
  */
 public interface CommodityService {
@@ -16,4 +17,8 @@ public interface CommodityService {
     int addCommodity(Commodity commodity,List<CommodityImage> imageList) throws Exception;
 
     int saveImages(List<CommodityImage> imageList, Commodity commodity) throws Exception;
+
+    int commodityStatusChange(Integer id,int status) throws Exception;
+
+    int auction(Commodity commodity) throws Exception;
 }
