@@ -69,7 +69,7 @@ public class CommodityServiceImpl implements CommodityService{
             Date start = commodity.getStartTime();
             Date end = commodity.getEndTime();
             long delay1 = start.getTime() - System.currentTimeMillis();
-            long delay2 = end.getTime() - System.currentTimeMillis() + 60 * 1000;
+            long delay2 = end.getTime() - System.currentTimeMillis() + 5 * 1000;
             startScheduledExecutorService(delay1, new Runnable() {
                 @Override
                 public void run() {

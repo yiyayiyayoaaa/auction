@@ -323,9 +323,20 @@
             }
         }
 
+        function showMessage(title,msg) {
+            $.messager.show({    // show error message
+                title: title,
+                msg: msg
+            });
+        }
+
         function commodityOff(){
             url = "${pageContext.request.contextPath}/admin/commodityOff.do";
             var row = $('#dg').datagrid('getSelected');
+            if (row.status == 2){
+                showMessage("ERROR","拍卖中，无法下架！");
+                return;
+            }
             if (row.status != 6){
                 $.messager.confirm('警告','你确定要下架该商品?',function(r){
                     if (r){

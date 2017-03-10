@@ -62,7 +62,11 @@
     starting_price, bid_increments, hammer_price, bidding_deposit, status, start_time,
     end_time, co.registration_time, co.update_time
     FROM  commodity co, commodity_type ct, customer cu
-    where co.type_id = ct.id AND co.customer_id = cu.id
+    WHERE co.type_id = ct.id AND co.customer_id = cu.id
+    <if test="status != null">
+      AND co.status = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="rows != 0">limit #{startRow},#{rows}</if>
   </select>
 
   <select id="findCommodityById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
