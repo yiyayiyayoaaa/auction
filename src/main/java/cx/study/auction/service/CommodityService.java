@@ -3,6 +3,7 @@ package cx.study.auction.service;
 import cx.study.auction.pojo.Commodity;
 import cx.study.auction.pojo.CommodityImage;
 import cx.study.auction.query.CommodityQuery;
+import cx.study.auction.vo.CommodityVo;
 
 import java.util.List;
 
@@ -12,7 +13,9 @@ import java.util.List;
  */
 public interface CommodityService {
 
-    List<Commodity> findCommodity(CommodityQuery commodityQuery) throws Exception;
+    List<CommodityVo> findCommodity(CommodityQuery commodityQuery) throws Exception;
+
+    List<CommodityVo> findCommodityWithImg(CommodityQuery commodityQuery) throws Exception;
 
     int addCommodity(Commodity commodity,List<CommodityImage> imageList) throws Exception;
 

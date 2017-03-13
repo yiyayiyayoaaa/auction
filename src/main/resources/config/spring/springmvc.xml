@@ -23,4 +23,5 @@
     </bean>
     <!--控制器映射器和控制器适配器-->
     <mvc:annotation-driven/>
+    <!--<mvc:resources mapping="" location=""/>-->
 </beans>

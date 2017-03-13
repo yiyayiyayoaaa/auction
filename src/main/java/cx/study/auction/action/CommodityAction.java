@@ -10,6 +10,7 @@ import cx.study.auction.query.CustomerQuery;
 import cx.study.auction.service.CommodityService;
 import cx.study.auction.util.RequestUtil;
 import cx.study.auction.util.ResponseUtil;
+import cx.study.auction.vo.CommodityVo;
 import org.apache.commons.lang.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Controller;
@@ -43,7 +44,7 @@ public class CommodityAction {
             query.setPageNo(page);
             query.setRows(rows);
         }
-        List<Commodity> list = commodityService.findCommodity(query);
+        List<CommodityVo> list = commodityService.findCommodity(query);
         Map<String,Object> map = new HashMap<>();
         map.put("rows",list);
         map.put("total",list.size());

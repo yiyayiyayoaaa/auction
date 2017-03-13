@@ -6,6 +6,7 @@ import cx.study.auction.pojo.Commodity.CommodityStatus;
 import cx.study.auction.pojo.CommodityImage;
 import cx.study.auction.query.CommodityQuery;
 import cx.study.auction.service.CommodityService;
+import cx.study.auction.vo.CommodityVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,8 +26,18 @@ public class CommodityServiceImpl implements CommodityService{
 
     @Resource
     private CommodityMapper commodityMapper;
-    public List<Commodity> findCommodity(CommodityQuery commodityQuery) throws Exception {
+    public List<CommodityVo> findCommodity(CommodityQuery commodityQuery) throws Exception {
         return commodityMapper.findCommodity(commodityQuery);
+    }
+
+    @Override
+    public List<CommodityVo> findCommodityWithImg(CommodityQuery commodityQuery) throws Exception {
+        List<CommodityVo> commodities = this.findCommodity(commodityQuery);
+        for (CommodityVo commodityVo : commodities){
+            List<String> images = commodityMapper.findImageByCId(commodityVo.getId());
+            commodityVo.setImageUrls(images);
+        }
+        return commodities;
     }
 
     @Override

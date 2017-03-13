@@ -69,6 +69,12 @@
     <if test="rows != 0">limit #{startRow},#{rows}</if>
   </select>
 
+  <select id="findImageByCId" resultType="java.lang.String" parameterType="java.lang.Integer">
+    SELECT url
+    FROM commodity_image
+    WHERE commodity_id = #{id,jdbcType=INTEGER}
+  </select>
+
   <select id="findCommodityById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

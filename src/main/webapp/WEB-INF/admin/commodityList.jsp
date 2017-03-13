@@ -82,20 +82,20 @@
             $(value).remove();
         }
 
-        $(function () {
-            $('#fileupload').fileupload({
-                dataType: 'json',
-                sequentialUploads: true
-            }).bind('fileuploadprogress', function (e, data) {
-                var progress = parseInt(data.loaded / data.total * 100, 10);
-                $("#uploadProgress").css('width',progress + '%');
-                $("#uploadProgress").html(progress + '%');
-            }).bind('fileuploaddone', function (e, data) {
-                var img = "<img src='${pageContext.request.contextPath}/" + data.result.result +"'onclick='remove(this)' style='height: 60px;width: 50px'/>";
-                $("#imgList").append(img);
-
-            });
-        });
+        <%--$(function () {--%>
+            <%--$('#fileupload').fileupload({--%>
+                <%--url:'${pageContext.request.contextPath}/upload.do',--%>
+                <%--dataType: 'json',--%>
+                <%--sequentialUploads: true--%>
+            <%--}).bind('fileuploadprogress', function (e, data) {--%>
+                <%--var progress = parseInt(data.loaded / data.total * 100, 10);--%>
+                <%--$("#uploadProgress").css('width',progress + '%');--%>
+                <%--$("#uploadProgress").html(progress + '%');--%>
+            <%--}).bind('fileuploaddone', function (e, data) {--%>
+                <%--var img = "<img src='${pageContext.request.contextPath}/" + data.result.result +"'onclick='remove(this)' style='height: 60px;width: 50px'/>";--%>
+                <%--$("#imgList").append(img);--%>
+            <%--});--%>
+        <%--});--%>
     </script>
 </head>
 <body>
@@ -133,7 +133,7 @@
     </div>
 
     <div id="dlg" class="easyui-dialog" style="width:600px" closed="true" buttons="#dlg-buttons">
-        <form id="fm" style="width:100%;max-width: 400px;padding:30px 60px;">
+        <form id="fm" style="width:100%;max-width: 400px;padding:30px 60px;" >
             <div style="margin-bottom:10px">
                 <input id="name" name="commodityName" class="f1 easyui-textbox"
                        data-options="label: '商品名:', labelPosition: 'top'"/>
@@ -167,7 +167,7 @@
                                    data-options="label: '保留价:', labelPosition: 'top'" >(¥/元)
             </div>
             <div style="margin-bottom:10px;">
-                <input id="fileupload" type="file"  name="files[]"  data-url="${pageContext.request.contextPath}/upload.do" multiple>
+                <input id="fileupload" type="file"  name="files[]" multiple>
             </div>
 
             <div id="imgList">
@@ -261,6 +261,20 @@
             $('#search').textbox().textbox('addClearBtn', 'icon-clear');
         });
 
+        function initFileUpload() {
+            $('#fileupload').fileupload({
+                url:'${pageContext.request.contextPath}/upload.do',
+                dataType: 'json',
+                sequentialUploads: true
+            }).bind('fileuploadprogress', function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $("#uploadProgress").css('width',progress + '%');
+                $("#uploadProgress").html(progress + '%');
+            }).bind('fileuploaddone', function (e, data) {
+                var img = "<img src='${pageContext.request.contextPath}/" + data.result.result +"'onclick='remove(this)' style='height: 60px;width: 50px'/>";
+                $("#imgList").append(img);
+            });
+        }
         function doSearch(){
             var key = $('#search').val();
             $('#dg').datagrid('load',{
@@ -274,7 +288,8 @@
             $("#imgList").children("img").each(function (i) {
                 $(this).remove();
             });
-            $("#uploadProgress").css('width',0 + '%');
+//            $("#uploadProgress").css('width',0);
+//            $("#uploadProgress").html('');
         }
 
         function toAuction() {
@@ -288,7 +303,8 @@
 
         function newUser(){
             clearImgStatus();
-            fm.form('reset');
+            initFileUpload();
+            //fm.form('clear');
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','信息录入');
             url =  "${pageContext.request.contextPath}/admin/addCommodity.do";
         }
