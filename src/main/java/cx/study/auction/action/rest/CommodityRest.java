@@ -20,7 +20,7 @@ import java.util.Map;
  * Created by cheng.xiao on 2017/3/25.
  */
 @Controller
-@RequestMapping("/commodityRest")
+@RequestMapping("/CommodityRest")
 public class CommodityRest {
 
     @Resource

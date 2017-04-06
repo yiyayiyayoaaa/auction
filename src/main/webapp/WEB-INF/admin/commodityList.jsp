@@ -62,13 +62,7 @@
                 return "";
             }
             var date = new Date(value);
-            var y = date.getFullYear();
-            var M = date.getMonth()+1;
-            var d = date.getDay();
-            var h = date.getHours();
-            var m = date.getMinutes();
-            var s = date.getSeconds();
-            return y + "-" + (M<10?'0'+M:M) + "-" + (d<10?'0'+d:d) + " " + (h<10?'0'+h:h) + ":" + (m<10?'0'+m:m) + ":" + (s<10?'0'+s:s);
+            return date.toLocaleString()
         }
         function genderFormatter(value) {
             if(value == 0){

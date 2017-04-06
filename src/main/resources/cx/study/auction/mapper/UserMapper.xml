@@ -23,6 +23,30 @@
     id, username, password, portrait, nickname, name, birth, gender, IDCard, phone, email, 
     status, account, payment_password, registration_time, update_time
   </sql>
+  
+  <insert id="register" parameterType="cx.study.auction.pojo.User">
+    insert into user (id, username, password,
+      portrait, nickname, name,
+      birth, gender, IDCard,
+      phone, email, status,
+      account, payment_password, registration_time,
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{portrait,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{birth,jdbcType=DATE}, #{gender,jdbcType=INTEGER}, #{idcard,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+      #{account,jdbcType=DECIMAL}, #{paymentPassword,jdbcType=VARCHAR}, #{registrationTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+
+    <select id="login" parameterType="cx.study.auction.pojo.User" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where username = #{username,jdbcType=VARCHAR} AND password = #{password,jdbcType=VARCHAR}
+    </select>
+
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
