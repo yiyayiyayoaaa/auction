@@ -33,7 +33,7 @@ public class HomePageRest {
     public void homeInfo(HttpServletResponse response) throws Exception {
         CommodityQuery query = new CommodityQuery();
         query.setPageNo(1);
-        query.setRows(8);
+        query.setRows(6);
         query.setStatus(Commodity.CommodityStatus.AUCTION);
         List<CommodityVo> commodityList = commodityService.findCommodityWithImg(query);
         List<HomeItem> homeItems = new ArrayList<>();

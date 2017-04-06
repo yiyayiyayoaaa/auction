@@ -81,6 +81,14 @@
     from commodity
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="findCommodityVoById" resultMap="CommodityListResultMap" parameterType="java.lang.Integer" >
+      SELECT co.id, commodity_name, type_id, type_name,co.description, customer_id, cu.name customer_name,appraised_price, reserve_price,
+      starting_price, bid_increments, hammer_price, bidding_deposit, status, start_time,
+      end_time, co.registration_time, co.update_time
+      FROM  commodity co, commodity_type ct, customer cu
+      WHERE co.type_id = ct.id AND co.customer_id = cu.id AND co.id = #{id,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from commodity
     where id = #{id,jdbcType=INTEGER}

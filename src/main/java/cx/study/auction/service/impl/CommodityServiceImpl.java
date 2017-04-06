@@ -41,6 +41,14 @@ public class CommodityServiceImpl implements CommodityService{
     }
 
     @Override
+    public CommodityVo findCommodityById(Integer id) throws Exception {
+        CommodityVo commodityVo = commodityMapper.findCommodityVoById(id);
+        List<String> images = commodityMapper.findImageByCId(commodityVo.getId());
+        commodityVo.setImageUrls(images);
+        return commodityVo;
+    }
+
+    @Override
     public int addCommodity(Commodity commodity,List<CommodityImage> imageList) throws Exception {
         int i = commodityMapper.addCommodity(commodity);
         if(i > 0){

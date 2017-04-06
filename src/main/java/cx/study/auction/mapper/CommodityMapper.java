@@ -10,6 +10,8 @@ import java.util.List;
 public interface CommodityMapper {
     Commodity findCommodityById(Integer id) throws Exception;
 
+    CommodityVo findCommodityVoById(Integer id) throws Exception;
+
     List<CommodityVo> findCommodity(CommodityQuery commodityQuery) throws Exception;
 
     int saveImage(CommodityImage commodityImage) throws Exception;

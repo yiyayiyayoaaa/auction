@@ -17,6 +17,7 @@ public interface CommodityService {
 
     List<CommodityVo> findCommodityWithImg(CommodityQuery commodityQuery) throws Exception;
 
+    CommodityVo findCommodityById(Integer id) throws Exception;
     int addCommodity(Commodity commodity,List<CommodityImage> imageList) throws Exception;
 
     int saveImages(List<CommodityImage> imageList, Commodity commodity) throws Exception;
