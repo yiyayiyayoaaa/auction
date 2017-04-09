@@ -26,7 +26,7 @@ public class CommodityRest {
     @Resource
     CommodityService commodityService;
     @RequestMapping("/findCommodityById")
-    public void findCommodityById(HttpServletRequest request, HttpServletResponse response, @RequestBody()JsonObject json) throws Exception {
+    public void findCommodityById(HttpServletResponse response, @RequestBody()JsonObject json) throws Exception {
         //Integer id = RequestUtil.getInteger(request, "commodityId");
         int id = json.get("commodityId").getAsInt();
         CommodityVo commodityVo = commodityService.findCommodityById(id);
@@ -41,5 +41,10 @@ public class CommodityRest {
             map.put("msg","请求失败");
         }
         ResponseUtil.writeJson(response,new Gson().toJson(map));
+    }
+
+    @RequestMapping("/bid")
+    public void bid(HttpServletResponse response, @RequestBody()JsonObject json){
+
     }
 }
