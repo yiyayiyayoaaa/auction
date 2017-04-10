@@ -2,6 +2,8 @@ package cx.study.auction.action.rest;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import cx.study.auction.pojo.BidRecord;
+import cx.study.auction.pojo.Result;
 import cx.study.auction.service.CommodityService;
 import cx.study.auction.util.ResponseUtil;
 import cx.study.auction.vo.CommodityVo;
@@ -30,21 +32,23 @@ public class CommodityRest {
         //Integer id = RequestUtil.getInteger(request, "commodityId");
         int id = json.get("commodityId").getAsInt();
         CommodityVo commodityVo = commodityService.findCommodityById(id);
-        Map<String,Object> map = new HashMap<>();
-        if (commodityVo != null){
-            map.put("code",0);
-            map.put("obj",commodityVo);
-            map.put("msg","请求成功");
-        }else{
-            map.put("code",-1);
-            map.put("obj",null);
-            map.put("msg","请求失败");
-        }
-        ResponseUtil.writeJson(response,new Gson().toJson(map));
+        Result result = new Result<>(0,"请求成功",commodityVo);
+        ResponseUtil.writeJson(response,new Gson().toJson(result));
     }
 
     @RequestMapping("/bid")
-    public void bid(HttpServletResponse response, @RequestBody()JsonObject json){
+    public void bid(HttpServletResponse response, @RequestBody()JsonObject json) throws Exception {
+        int commodityId = json.get("commodityId").getAsInt();
+        int userId = json.get("userId").getAsInt();
+        double price = json.get("price").getAsDouble();
+        BidRecord bidRecord = new BidRecord(commodityId,userId,price);
+        Result result = commodityService.saveBidRecord(bidRecord);
+        ResponseUtil.writeJson(response,new Gson().toJson(result));
+    }
+
+    @RequestMapping("/bidRecord")
+    public void getBidRecord(HttpServletResponse response, @RequestBody()JsonObject json){
+        int commodityId = json.get("commodityId").getAsInt();
 
     }
 }

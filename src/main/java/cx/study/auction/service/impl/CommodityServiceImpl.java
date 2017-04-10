@@ -1,9 +1,11 @@
 package cx.study.auction.service.impl;
 
 import cx.study.auction.mapper.CommodityMapper;
+import cx.study.auction.pojo.BidRecord;
 import cx.study.auction.pojo.Commodity;
 import cx.study.auction.pojo.Commodity.CommodityStatus;
 import cx.study.auction.pojo.CommodityImage;
+import cx.study.auction.pojo.Result;
 import cx.study.auction.query.CommodityQuery;
 import cx.study.auction.service.CommodityService;
 import cx.study.auction.vo.CommodityVo;
@@ -121,6 +123,36 @@ public class CommodityServiceImpl implements CommodityService{
             });
         }
         return i;
+    }
+
+    @Override
+    public Result saveBidRecord(BidRecord bidRecord) throws Exception {
+        //根据id;查询商品状态是否正在拍卖。
+        String msg;
+        int code;
+        Commodity commodity = commodityMapper.findCommodityById(bidRecord.getCommodityId());
+        if (commodity.getStatus() == CommodityStatus.AUCTION){
+            if (bidRecord.getPrice() > commodity.getHammerPrice()) {
+                commodity.setHammerPrice(bidRecord.getPrice());
+                commodityMapper.updateCommodity(commodity);
+                int i = commodityMapper.addBidRecord(bidRecord);
+                if (i> 0){
+                    code = 0;
+                    msg = "出价成功";
+                } else {
+                    code = -1;
+                    msg = "出价失败";
+                }
+            } else {
+                code = -1;
+                msg = "出价低于当前价格";
+            }
+
+        } else {
+            msg = "拍卖已结束";
+            code = -1;
+        }
+        return new Result<>(code,msg,bidRecord);
     }
 
     private void startScheduledExecutorService(long delay,Runnable runnable){

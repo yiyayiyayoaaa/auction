@@ -1,7 +1,9 @@
 package cx.study.auction.service;
 
+import cx.study.auction.pojo.BidRecord;
 import cx.study.auction.pojo.Commodity;
 import cx.study.auction.pojo.CommodityImage;
+import cx.study.auction.pojo.Result;
 import cx.study.auction.query.CommodityQuery;
 import cx.study.auction.vo.CommodityVo;
 
@@ -25,4 +27,6 @@ public interface CommodityService {
     int commodityStatusChange(Integer id,int status) throws Exception;
 
     int auction(Commodity commodity) throws Exception;
+
+    Result saveBidRecord(BidRecord bidRecord) throws Exception;
 }

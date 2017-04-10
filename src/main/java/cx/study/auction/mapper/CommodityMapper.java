@@ -1,5 +1,6 @@
 package cx.study.auction.mapper;
 
+import cx.study.auction.pojo.BidRecord;
 import cx.study.auction.pojo.Commodity;
 import cx.study.auction.pojo.CommodityImage;
 import cx.study.auction.query.CommodityQuery;
@@ -21,4 +22,6 @@ public interface CommodityMapper {
     int updateCommodity(Commodity commodity) throws Exception;
 
     List<String> findImageByCId(Integer id) throws Exception;
+
+    int addBidRecord(BidRecord bidRecord) throws Exception;
 }
