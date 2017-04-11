@@ -23,17 +23,17 @@ public class Commodity {
 
     private Integer customerId;
 
-    private Double appraisedPrice;
+    private double appraisedPrice;
 
-    private Double reservePrice;
+    private double reservePrice;
 
-    private Double startingPrice;
+    private double startingPrice;
 
-    private Double bidIncrements;
+    private double bidIncrements;
 
-    private Double hammerPrice;
+    private double hammerPrice;
 
-    private Double biddingDeposit;
+    private double biddingDeposit;
 
     private Integer status;
 
@@ -85,51 +85,51 @@ public class Commodity {
         this.customerId = customerId;
     }
 
-    public Double getAppraisedPrice() {
+    public double getAppraisedPrice() {
         return appraisedPrice;
     }
 
-    public void setAppraisedPrice(Double appraisedPrice) {
+    public void setAppraisedPrice(double appraisedPrice) {
         this.appraisedPrice = appraisedPrice;
     }
 
-    public Double getReservePrice() {
+    public double getReservePrice() {
         return reservePrice;
     }
 
-    public void setReservePrice(Double reservePrice) {
+    public void setReservePrice(double reservePrice) {
         this.reservePrice = reservePrice;
     }
 
-    public Double getStartingPrice() {
+    public double getStartingPrice() {
         return startingPrice;
     }
 
-    public void setStartingPrice(Double startingPrice) {
+    public void setStartingPrice(double startingPrice) {
         this.startingPrice = startingPrice;
     }
 
-    public Double getBidIncrements() {
+    public double getBidIncrements() {
         return bidIncrements;
     }
 
-    public void setBidIncrements(Double bidIncrements) {
+    public void setBidIncrements(double bidIncrements) {
         this.bidIncrements = bidIncrements;
     }
 
-    public Double getHammerPrice() {
+    public double getHammerPrice() {
         return hammerPrice;
     }
 
-    public void setHammerPrice(Double hammerPrice) {
+    public void setHammerPrice(double hammerPrice) {
         this.hammerPrice = hammerPrice;
     }
 
-    public Double getBiddingDeposit() {
+    public double getBiddingDeposit() {
         return biddingDeposit;
     }
 
-    public void setBiddingDeposit(Double biddingDeposit) {
+    public void setBiddingDeposit(double biddingDeposit) {
         this.biddingDeposit = biddingDeposit;
     }
 

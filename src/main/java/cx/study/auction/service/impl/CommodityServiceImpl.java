@@ -132,6 +132,9 @@ public class CommodityServiceImpl implements CommodityService{
         int code;
         Commodity commodity = commodityMapper.findCommodityById(bidRecord.getCommodityId());
         if (commodity.getStatus() == CommodityStatus.AUCTION){
+            if(Double.isNaN(commodity.getHammerPrice())){
+                commodity.setHammerPrice(0d);
+            }
             if (bidRecord.getPrice() > commodity.getHammerPrice()) {
                 commodity.setHammerPrice(bidRecord.getPrice());
                 commodityMapper.updateCommodity(commodity);
