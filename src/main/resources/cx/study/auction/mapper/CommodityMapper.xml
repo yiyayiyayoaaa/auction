@@ -47,6 +47,12 @@
         <result column="bid_price" property="price" jdbcType="DOUBLE" />
         <result column="bid_time" property="bidTime" jdbcType="TIMESTAMP" />
     </resultMap>
+
+  <select id="findBidRecords" parameterType="java.lang.Integer" resultMap="BidRecordResultMap">
+    SELECT id,commodity_id,user_id,bid_price,bid_time
+    FROM bid_record
+    WHERE commodity_id=#{commodityId,jdbcType=INTEGER} order by bid_time DESC
+  </select>
     <insert id="addBidRecord" parameterType="cx.study.auction.pojo.BidRecord">
         INSERT INTO bid_record(commodity_id,user_id,bid_price,bid_time)
         VALUES (#{commodityId,jdbcType=INTEGER},#{userId,jdbcType=INTEGER},#{price,jdbcType=DOUBLE},#{bidTime,jdbcType=TIMESTAMP})

@@ -29,4 +29,6 @@ public interface CommodityService {
     int auction(Commodity commodity) throws Exception;
 
     Result saveBidRecord(BidRecord bidRecord) throws Exception;
+
+    Result findBidRecordById(int commodity) throws Exception;
 }

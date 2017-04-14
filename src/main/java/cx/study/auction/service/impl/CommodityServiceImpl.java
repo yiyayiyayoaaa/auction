@@ -158,6 +158,12 @@ public class CommodityServiceImpl implements CommodityService{
         return new Result<>(code,msg,bidRecord);
     }
 
+    @Override
+    public Result findBidRecordById(int commodityId) throws Exception {
+        List<BidRecord> records = commodityMapper.findBidRecords(commodityId);
+        return new Result<>(0,"",records);
+    }
+
     private void startScheduledExecutorService(long delay,Runnable runnable){
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
         service.schedule(runnable,delay, TimeUnit.MILLISECONDS);

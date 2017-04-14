@@ -46,9 +46,10 @@ public class CommodityRest {
         ResponseUtil.writeJson(response,new Gson().toJson(result));
     }
 
-    @RequestMapping("/bidRecord")
-    public void getBidRecord(HttpServletResponse response, @RequestBody()JsonObject json){
+    @RequestMapping("/bidRecords")
+    public void getBidRecord(HttpServletResponse response, @RequestBody()JsonObject json) throws Exception {
         int commodityId = json.get("commodityId").getAsInt();
-
+        Result result = commodityService.findBidRecordById(commodityId);
+        ResponseUtil.writeJson(response,new Gson().toJson(result));
     }
 }

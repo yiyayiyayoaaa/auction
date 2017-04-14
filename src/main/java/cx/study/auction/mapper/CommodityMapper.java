@@ -24,4 +24,6 @@ public interface CommodityMapper {
     List<String> findImageByCId(Integer id) throws Exception;
 
     int addBidRecord(BidRecord bidRecord) throws Exception;
+
+    List<BidRecord> findBidRecords(int commodityId) throws Exception;
 }
