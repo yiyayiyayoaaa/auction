@@ -3,8 +3,10 @@ package cx.study.auction.action.rest;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import cx.study.auction.pojo.BidRecord;
+import cx.study.auction.pojo.CommodityType;
 import cx.study.auction.pojo.Result;
 import cx.study.auction.service.CommodityService;
+import cx.study.auction.service.CommodityTypeService;
 import cx.study.auction.util.ResponseUtil;
 import cx.study.auction.vo.CommodityVo;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +30,8 @@ public class CommodityRest {
 
     @Resource
     CommodityService commodityService;
+    @Resource
+    CommodityTypeService commodityTypeService;
     @RequestMapping("/findCommodityById")
     public void findCommodityById(HttpServletResponse response, @RequestBody()JsonObject json) throws Exception {
         //Integer id = RequestUtil.getInteger(request, "commodityId");
@@ -50,6 +55,13 @@ public class CommodityRest {
     public void getBidRecord(HttpServletResponse response, @RequestBody()JsonObject json) throws Exception {
         int commodityId = json.get("commodityId").getAsInt();
         Result result = commodityService.findBidRecordById(commodityId);
+        ResponseUtil.writeJson(response,new Gson().toJson(result));
+    }
+
+    @RequestMapping("/commodityType")
+    public void getCommodityTypes(HttpServletResponse response, @RequestBody()JsonObject json) throws Exception {
+        List<CommodityType> list  = commodityTypeService.findAll();
+        Result<List<CommodityType>> result = new Result(0,"",list);
         ResponseUtil.writeJson(response,new Gson().toJson(result));
     }
 }

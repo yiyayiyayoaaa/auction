@@ -3,10 +3,7 @@ package cx.study.auction.action.rest;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import cx.study.auction.pojo.Commodity;
-import cx.study.auction.pojo.HomeContentItem;
-import cx.study.auction.pojo.HomeItem;
-import cx.study.auction.pojo.HomeTitleItem;
+import cx.study.auction.pojo.*;
 import cx.study.auction.query.CommodityQuery;
 import cx.study.auction.service.CommodityService;
 import cx.study.auction.util.ResponseUtil;
@@ -49,7 +46,8 @@ public class HomePageRest {
         query.setStatus(Commodity.CommodityStatus.WAIT_AUCTION);
         commodityList = commodityService.findCommodityWithImg(query);
         getHomeItems(commodityList, homeItems);
-        ResponseUtil.writeJson(response,new Gson().toJson(homeItems));
+        Result result = new Result(0,"",homeItems);
+        ResponseUtil.writeJson(response,new Gson().toJson(result));
     }
 
     private void getHomeItems(List<CommodityVo> commodityList, List<HomeItem> homeItems) {
