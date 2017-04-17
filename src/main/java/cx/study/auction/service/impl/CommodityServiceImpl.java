@@ -1,13 +1,12 @@
 package cx.study.auction.service.impl;
 
 import cx.study.auction.mapper.CommodityMapper;
-import cx.study.auction.pojo.BidRecord;
-import cx.study.auction.pojo.Commodity;
+import cx.study.auction.pojo.*;
 import cx.study.auction.pojo.Commodity.CommodityStatus;
-import cx.study.auction.pojo.CommodityImage;
-import cx.study.auction.pojo.Result;
 import cx.study.auction.query.CommodityQuery;
 import cx.study.auction.service.CommodityService;
+import cx.study.auction.service.OrderService;
+import cx.study.auction.util.OrderNumUtil;
 import cx.study.auction.vo.CommodityVo;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +27,8 @@ public class CommodityServiceImpl implements CommodityService{
 
     @Resource
     private CommodityMapper commodityMapper;
+    @Resource
+    private OrderService orderService;
     public List<CommodityVo> findCommodity(CommodityQuery commodityQuery) throws Exception {
         return commodityMapper.findCommodity(commodityQuery);
     }
@@ -111,6 +112,8 @@ public class CommodityServiceImpl implements CommodityService{
                         Double hammerPrice = commodity1.getHammerPrice();
                         if (hammerPrice != null && hammerPrice > 0d){
                             commodity1.setStatus(CommodityStatus.SUCCESS);
+                            Order order = createOrder(commodity);
+                            orderService.addOrder(order);
                         } else {
                             commodity1.setStatus(CommodityStatus.UNSOLD);
                         }
@@ -125,6 +128,18 @@ public class CommodityServiceImpl implements CommodityService{
         return i;
     }
 
+    private Order createOrder(Commodity commodity) throws Exception {
+        Order order = new Order();
+        order.setOrderNum(OrderNumUtil.createOrderNum());
+        order.setStatus(0);
+        List<BidRecord> bidRecords = commodityMapper.findBidRecords(commodity.getId());
+        order.setUserId(bidRecords.get(0).getUserId());
+        order.setPrice(bidRecords.get(0).getPrice());
+        order.setStartTime(new Date());
+        order.setCommodityId(commodity.getId());
+        order.setUpdateTime(new Date());
+        return order;
+    }
     @Override
     public Result saveBidRecord(BidRecord bidRecord) throws Exception {
         //根据id;查询商品状态是否正在拍卖。

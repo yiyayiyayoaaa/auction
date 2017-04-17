@@ -20,7 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by AMOBBS on 2017/2/3.
+ *
+ * Created by cheng.xiao on 2017/2/3.
  */
 @Controller
 @RequestMapping("/admin")
@@ -41,6 +42,15 @@ public class AdminPageAction {
         return "admin/commodityList";
     }
 
+    @RequestMapping("/userList")
+    public String toUserList(){
+        return "admin/userList";
+    }
+
+    @RequestMapping("/typeList")
+    public String toTypeList(){
+        return "admin/commodityType";
+    }
     @RequestMapping("testLogin")
     public void test(HttpServletRequest request, HttpServletResponse response) throws Exception{
         String loginId = RequestUtil.getString(request,"loginId");

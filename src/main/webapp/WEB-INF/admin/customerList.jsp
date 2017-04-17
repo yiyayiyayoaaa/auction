@@ -38,13 +38,7 @@
                 return "";
             }
             var date = new Date(value);
-            var y = date.getFullYear();
-            var M = date.getMonth()+1;
-            var d = date.getDay();
-            var h = date.getHours();
-            var m = date.getMinutes();
-            var s = date.getSeconds();
-            return y + "-" + (M<10?'0'+M:M) + "-" + (d<10?'0'+d:d) + " " + (h<10?'0'+h:h) + ":" + (m<10?'0'+m:m) + ":" + (s<10?'0'+s:s);
+            return date.toLocaleString();
         }
         function genderFormatter(value) {
             if(value == 0){
@@ -58,7 +52,7 @@
 <body>
     <div style="margin:5px 0;"></div>
 
-    <table id="dg" class="easyui-datagrid" title="客户信息" style="width:100%;height:100%"
+    <table id="dg" class="easyui-datagrid" title="客户信息" style="width:100%;height:600px"
            toolbar="#toolbar" data-options="pageSize:20,rownumbers:true,fitColumns:true,pagination:true,singleSelect:true,collapsible:true,
            url:'${pageContext.request.contextPath}/admin/findCustomer.do',method:'get'">
         <thead>

@@ -51,7 +51,7 @@
                 <div class="easyui-accordion" data-options="fit:false,border:false">
                     <div title="商品管理" style="padding:10px;">
                         <a href="javascript:openTab('商品列表','${pageContext.request.contextPath}/admin/commodityList.do')" class="easyui-linkbutton" data-options="plain:true">商品列表</a><br>
-                        <a href="javascript:openTab('分类管理','${pageContext.request.contextPath}/admin/commodityList.do')" class="easyui-linkbutton" data-options="plain:true">分类管理</a><br>
+                        <a href="javascript:openTab('分类管理','${pageContext.request.contextPath}/admin/typeList.do')" class="easyui-linkbutton" data-options="plain:true">分类管理</a><br>
                     </div>
                     <div title="交易管理"  style="padding:10px;">
                         <a href="#" class="easyui-linkbutton" data-options="plain:true">交易信息</a><br>
@@ -59,17 +59,17 @@
                     </div>
                     <div title="用户管理"  style="padding:10px;">
                         <a href="javascript:openTab('客户列表','${pageContext.request.contextPath}/admin/customerList.do')" class="easyui-linkbutton" data-options="plain:true">客户列表</a><br>
-                        <a href="javascript:openTab('用户列表','${pageContext.request.contextPath}/admin/findCustomerPage.do')" class="easyui-linkbutton" data-options="plain:true">用户列表</a><br>
-                        <a href="javascript:openTab('账户管理','${pageContext.request.contextPath}/admin/findCustomerPage.do')" class="easyui-linkbutton" data-options="plain:true">账户管理</a>
+                        <a href="javascript:openTab('用户列表','${pageContext.request.contextPath}/admin/userList.do')" class="easyui-linkbutton" data-options="plain:true">用户列表</a><br>
+                        <%--<a href="javascript:openTab('账户管理','${pageContext.request.contextPath}/admin/findCustomerPage.do')" class="easyui-linkbutton" data-options="plain:true">账户管理</a>--%>
                     </div>
-                    <div title="消息管理" style="padding:10px">
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">留言列表</a><br>
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">意见反馈</a><br>
-                    </div>
-                    <div title="管理员管理" style="padding:10px">
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">管理员列表</a><br>
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">个人信息</a><br>
-                    </div>
+                    <%--<div title="消息管理" style="padding:10px">--%>
+                        <%--<a href="#" class="easyui-linkbutton" data-options="plain:true">留言列表</a><br>--%>
+                        <%--<a href="#" class="easyui-linkbutton" data-options="plain:true">意见反馈</a><br>--%>
+                    <%--</div>--%>
+                    <%--<div title="管理员管理" style="padding:10px">--%>
+                        <%--<a href="#" class="easyui-linkbutton" data-options="plain:true">管理员列表</a><br>--%>
+                        <%--<a href="#" class="easyui-linkbutton" data-options="plain:true">个人信息</a><br>--%>
+                    <%--</div>--%>
                     <div title="系统管理" style="padding:10px">
                         <a href="#" class="easyui-linkbutton" data-options="plain:true">系统设置</a><br>
                     </div>

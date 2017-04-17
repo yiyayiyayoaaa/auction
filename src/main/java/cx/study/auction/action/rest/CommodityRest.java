@@ -3,8 +3,10 @@ package cx.study.auction.action.rest;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import cx.study.auction.pojo.BidRecord;
+import cx.study.auction.pojo.Commodity;
 import cx.study.auction.pojo.CommodityType;
 import cx.study.auction.pojo.Result;
+import cx.study.auction.query.CommodityQuery;
 import cx.study.auction.service.CommodityService;
 import cx.study.auction.service.CommodityTypeService;
 import cx.study.auction.util.ResponseUtil;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +65,43 @@ public class CommodityRest {
     public void getCommodityTypes(HttpServletResponse response, @RequestBody()JsonObject json) throws Exception {
         List<CommodityType> list  = commodityTypeService.findAll();
         Result<List<CommodityType>> result = new Result(0,"",list);
+        ResponseUtil.writeJson(response,new Gson().toJson(result));
+    }
+
+    @RequestMapping("/commodities")
+    public void getCommodities(HttpServletResponse response, @RequestBody()JsonObject json) throws Exception {
+        int id = json.get("id").getAsInt();
+        CommodityQuery query = new CommodityQuery();
+        List<CommodityVo> commodityVos = new ArrayList<>();
+        if (id < 0){
+            switch (id){
+                case -1:
+                    query.setStatus(Commodity.CommodityStatus.WAIT_AUCTION);
+                    List<CommodityVo> list1 = commodityService.findCommodityWithImg(query);
+                    query.setStatus(Commodity.CommodityStatus.AUCTION);
+                    List<CommodityVo> list2 = commodityService.findCommodityWithImg(query);
+                    commodityVos.addAll(list1);
+                    commodityVos.addAll(list2);
+                    break;
+                case -2:
+                    query.setStatus(Commodity.CommodityStatus.AUCTION);
+                    commodityVos.addAll(commodityService.findCommodityWithImg(query));
+                    break;
+                case -3:
+                    query.setStatus(Commodity.CommodityStatus.WAIT_AUCTION);
+                    commodityVos.addAll(commodityService.findCommodityWithImg(query));
+                    break;
+            }
+        } else {
+            query.setTypeId(id);
+            query.setStatus(Commodity.CommodityStatus.WAIT_AUCTION);
+            List<CommodityVo> list1 = commodityService.findCommodityWithImg(query);
+            query.setStatus(Commodity.CommodityStatus.AUCTION);
+            List<CommodityVo> list2 = commodityService.findCommodityWithImg(query);
+            commodityVos.addAll(list1);
+            commodityVos.addAll(list2);
+        }
+        Result result = new Result(0,"",commodityVos);
         ResponseUtil.writeJson(response,new Gson().toJson(result));
     }
 }

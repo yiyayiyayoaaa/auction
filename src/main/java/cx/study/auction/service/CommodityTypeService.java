@@ -10,4 +10,10 @@ import java.util.List;
  */
 public interface CommodityTypeService {
     List<CommodityType> findAll() throws Exception;
+
+    int addType(CommodityType type);
+
+    int update(CommodityType type);
+
+    int delete(int id);
 }

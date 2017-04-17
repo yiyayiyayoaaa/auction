@@ -62,7 +62,7 @@
                 return "";
             }
             var date = new Date(value);
-            return date.toLocaleString()
+            return date.toLocaleString();
         }
         function genderFormatter(value) {
             if(value == 0){
@@ -95,7 +95,7 @@
 <body>
     <div style="margin:5px 0;"></div>
 
-    <table id="dg" class="easyui-datagrid" title="商品列表" style="width:100%;height:100%"
+    <table id="dg" class="easyui-datagrid" title="商品列表" style="width:100%;height:600px"
            toolbar="#toolbar" data-options="pageSize:20,rownumbers:true,fitColumns:true,pagination:true,singleSelect:true,collapsible:true,
            url:'${pageContext.request.contextPath}/admin/findCommodity.do',method:'get'">
         <thead>

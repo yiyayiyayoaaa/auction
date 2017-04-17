@@ -19,11 +19,24 @@
     <result column="registration_time" property="registrationTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+
+<resultMap id="AddressResultMap" type="cx.study.auction.pojo.UserAddress" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+</resultMap>
   <sql id="Base_Column_List" >
     id, username, password, portrait, nickname, name, birth, gender, IDCard, phone, email, 
     status, account, payment_password, registration_time, update_time
   </sql>
-  
+    <insert id="insertUserAddress" parameterType="cx.study.auction.pojo.UserAddress">
+        INSERT INTO user_address(user_id,address,time)
+        VALUES (#{id,jdbcType=INTEGER},#{userId,jdbcType=INTEGER},#{address,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP})
+    </insert>
+    <select id="getAddressByUserId" parameterType="java.lang.Integer" resultMap="AddressResultMap">
+      SELECT id,user_id,address,time FROM user_address WHERE user_id = #{id,jdbcType=INTEGER}
+    </select>
   <insert id="register" parameterType="cx.study.auction.pojo.User">
     insert into user (id, username, password,
       portrait, nickname, name,
@@ -38,7 +51,19 @@
       #{account,jdbcType=DECIMAL}, #{paymentPassword,jdbcType=VARCHAR}, #{registrationTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-
+    <select id="findUser" parameterType="cx.study.auction.query.UserQuery" resultMap="BaseResultMap">
+        SELECT id, username, portrait, nickname, name,
+        birth, gender, IDCard,
+        phone, email, status,
+        account, registration_time,
+        update_time
+        FROM user
+        <if test="keyWord != null">
+            WHERE name LIKE #{keyWord} OR username LIKE #{keyWord} OR IDCard LIKE #{keyWord} OR phone LIKE #{keyWord}
+            OR nickname LIKE #{keyWord}
+        </if>
+        <if test="rows != 0">limit #{startRow},#{rows}</if>
+    </select>
     <select id="login" parameterType="cx.study.auction.pojo.User" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />

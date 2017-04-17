@@ -1,9 +1,12 @@
 package cx.study.auction.service;
 
 import cx.study.auction.mapper.CommodityMapper;
+import cx.study.auction.pojo.BidRecord;
 import cx.study.auction.pojo.Commodity;
 import cx.study.auction.pojo.Commodity.CommodityStatus;
+import cx.study.auction.pojo.Order;
 import cx.study.auction.query.CommodityQuery;
+import cx.study.auction.util.OrderNumUtil;
 import cx.study.auction.vo.CommodityVo;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -31,6 +34,8 @@ public class StartupListener implements ApplicationContextAware {
     @Resource
     private
     CommodityMapper commodityMapper;
+    @Resource
+    private OrderService orderService;
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         try {
@@ -80,8 +85,10 @@ public class StartupListener implements ApplicationContextAware {
         try {
             Commodity commodity = commodityMapper.findCommodityById(commodityVo.getId());
             Double hammerPrice = commodity.getHammerPrice();
-            if (hammerPrice != null && hammerPrice > 0d){
+            if (hammerPrice > 0d){
                 commodity.setStatus(CommodityStatus.SUCCESS);
+                Order order = createOrder(commodity);
+                orderService.addOrder(order);
             } else {
                 commodity.setStatus(CommodityStatus.UNSOLD);
             }
@@ -90,6 +97,19 @@ public class StartupListener implements ApplicationContextAware {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private Order createOrder(Commodity commodity) throws Exception {
+        Order order = new Order();
+        order.setOrderNum(OrderNumUtil.createOrderNum());
+        order.setStatus(0);
+        List<BidRecord> bidRecords = commodityMapper.findBidRecords(commodity.getId());
+        order.setUserId(bidRecords.get(0).getUserId());
+        order.setPrice(bidRecords.get(0).getPrice());
+        order.setStartTime(new Date());
+        order.setCommodityId(commodity.getId());
+        order.setUpdateTime(new Date());
+        return order;
     }
 
     private void startScheduledExecutorService(long delay,Runnable runnable){

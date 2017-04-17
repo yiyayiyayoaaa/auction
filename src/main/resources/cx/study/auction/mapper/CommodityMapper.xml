@@ -80,6 +80,9 @@
     end_time, co.registration_time, co.update_time
     FROM  commodity co, commodity_type ct, customer cu
     WHERE co.type_id = ct.id AND co.customer_id = cu.id
+    <if test="typeId != null">
+      AND type_id = #{typeId,jdbcType=INTEGER}
+    </if>
     <if test="status != null">
       AND co.status = #{status,jdbcType=INTEGER}
     </if>

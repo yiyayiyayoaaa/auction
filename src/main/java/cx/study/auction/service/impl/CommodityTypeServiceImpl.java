@@ -25,4 +25,19 @@ public class CommodityTypeServiceImpl implements CommodityTypeService{
     public List<CommodityType> findAll() throws Exception {
         return commodityTypeMapper.findAll();
     }
+
+    @Override
+    public int addType(CommodityType type) {
+        return commodityTypeMapper.insertSelective(type);
+    }
+
+    @Override
+    public int update(CommodityType type) {
+        return commodityTypeMapper.updateByPrimaryKeySelective(type);
+    }
+
+    @Override
+    public int delete(int id) {
+        return commodityTypeMapper.deleteByPrimaryKey(id);
+    }
 }

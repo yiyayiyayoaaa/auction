@@ -2,11 +2,14 @@ package cx.study.auction.service.impl;
 
 import cx.study.auction.mapper.UserMapper;
 import cx.study.auction.pojo.User;
+import cx.study.auction.pojo.UserAddress;
+import cx.study.auction.query.UserQuery;
 import cx.study.auction.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -27,5 +30,20 @@ public class UserServiceImpl implements UserService{
         user.setRegistrationTime(new Date());
         user.setUpdateTime(new Date());
         return userMapper.register(user);
+    }
+
+    @Override
+    public int addUserAddress(UserAddress address) {
+        return userMapper.insertAddress(address);
+    }
+
+    @Override
+    public List<UserAddress> findAllAddressByUser(int id) {
+        return userMapper.getAddressByUserId(id);
+    }
+
+    @Override
+    public List<User> findUser(UserQuery query) {
+        return userMapper.findUser(query);
     }
 }

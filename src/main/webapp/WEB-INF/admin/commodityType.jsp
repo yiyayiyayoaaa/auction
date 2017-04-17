@@ -33,39 +33,26 @@
             return  y + "-" + (M<10?'0'+M:M) + "-" + (d<10?'0'+d:d);
         }
 
-        function DateTimeFormatter(value){
-            if(value == null || value.trim() == ""){
+        function DateTimeFormatter(value) {
+            if (value == null || value.trim() == "") {
                 return "";
             }
             var date = new Date(value);
-            var y = date.getFullYear();
-            var M = date.getMonth()+1;
-            var d = date.getDay();
-            var h = date.getHours();
-            var m = date.getMinutes();
-            var s = date.getSeconds();
-            return y + "-" + (M<10?'0'+M:M) + "-" + (d<10?'0'+d:d) + " " + (h<10?'0'+h:h) + ":" + (m<10?'0'+m:m) + ":" + (s<10?'0'+s:s);
-        }
-        function genderFormatter(value) {
-            if(value == 0){
-                return "男";
-            }else{
-                return "女";
-            }
+            return date.toLocaleString();
         }
     </script>
 </head>
 <body>
 <div style="margin:5px 0;"></div>
 
-<table id="dg" class="easyui-datagrid" title="分类管理" style="width:100%;height:100%"
-       toolbar="#toolbar" data-options="pageSize:20,rownumbers:true,fitColumns:true,pagination:true,singleSelect:true,collapsible:true,
-           url:'${pageContext.request.contextPath}/admin/findCustomer.do',method:'get'">
+<table id="dg" class="easyui-datagrid" title="分类管理" style="width:100%;height:600px"
+       toolbar="#toolbar" data-options="pageSize:20,rownumbers:true,fitColumns:true,pagination:false,singleSelect:true,collapsible:true,
+           url:'${pageContext.request.contextPath}/admin/findTypeList.do',method:'get'">
     <thead>
     <tr>
-        <th data-options="field:'name',align:'center'">分类名称</th>
-        <th data-options="field:'gender',align:'center',formatter:genderFormatter">分类描述</th>
-        <th data-options="field:'registrationTime',align:'center',formatter:DateTimeFormatter">添加日期</th>
+        <th data-options="field:'typeName',align:'center'">分类名称</th>
+        <th data-options="field:'description',align:'center'">分类描述</th>
+        <th data-options="field:'registrationTime',align:'center',formatter:DateTimeFormatter">创建日期</th>
         <th data-options="field:'updateTime',align:'center',formatter:DateTimeFormatter">修改日期</th>
     </tr>
     </thead>
@@ -74,63 +61,21 @@
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">新建分类</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除</a>
-    <div style="width: 220px;float: right;margin-right: 10px">
-        <input id="search" class="easyui-textbox"  style="width: 100%" data-options="buttonText:'查询',onClickButton:doSearch,buttonAlign:'left',buttonIcon:'icon-search'"/>
-    </div>
+    <%--<div style="width: 220px;float: right;margin-right: 10px">--%>
+        <%--<input id="search" class="easyui-textbox"  style="width: 100%" data-options="buttonText:'查询',onClickButton:doSearch,buttonAlign:'left',buttonIcon:'icon-search'"/>--%>
+    <%--</div>--%>
 </div>
-<div id="dlg" class="easyui-dialog" style="width:600px" closed="true" buttons="#dlg-buttons">
+<div id="dlg" class="easyui-dialog" style="width:400px" closed="true" buttons="#dlg-buttons">
     <form id="fm">
         <table style="margin:0;padding:20px 50px">
             <tr>
-                <td>姓名:</td>
-                <td><input id="name" name="name" class="f1 easyui-textbox"/></td>
+                <td>分类名称:</td>
+                <td><input id="typeName" name="typeName" class="f1 easyui-textbox"/></td>
             </tr>
             <tr>
-                <td>性别:</td>
-                <td>
-                    <input name="gender" type="radio" value="0" checked="checked"/>男
-                    <input name="gender" type="radio" value="1" >女
-                </td>
+                <td>分类描述:</td>
+                <td><input id="description" name="description" class="f1 easyui-textbox" data-options="multiline:true"/></td>
             </tr>
-            <tr>
-                <td>出生日期:</td>
-                <td>
-                    <input id="birth" name="birth" class="easyui-datebox"   style="width:50%;">
-                </td>
-            </tr>
-            <tr>
-                <td>身份证号:</td>
-                <td><input id="IDCard" name="idcard" class="f1 easyui-textbox"/></td>
-            </tr>
-            <tr>
-                <td>Email:</td>
-                <td><input id="email" name="email" class="f1 easyui-textbox"/></td>
-            </tr>
-            <tr>
-                <td>手机:</td>
-                <td><input id="phone" name="phone" class="f1 easyui-textbox"/></td>
-            </tr>
-            <tr>
-                <td>地址:</td>
-                <td>
-                    <select id="province" name="province"></select>
-                    <select id="city" name="city"></select>
-                    <select id="area" name="area"></select><br>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <input id="address" name="address" class="easyui-textbox"  multiline="true"  style="width:100%;height:120px">
-                </td>
-            </tr>
-            <%--<tr>--%>
-            <%--<td></td>--%>
-            <%--<td>--%>
-            <%--&lt;%&ndash;<a href="javascript:submitData()" class="easyui-linkbutton" data-options="toggle:true,plain:true">提交</a>&ndash;%&gt;--%>
-            <%--<span id="result"></span>--%>
-            <%--</td>--%>
-            <%--</tr>--%>
         </table>
     </form>
 </div>
@@ -140,54 +85,12 @@
 </div>
 
 <script type="text/javascript">
-    new PCAS("province","city","area");
     var fm = $('#fm');
-    $.extend($.fn.textbox.methods, {
-        addClearBtn: function(jq, iconCls){
-            return jq.each(function(){
-                var t = $(this);
-                var opts = t.textbox('options');
-                opts.icons = opts.icons || [];
-                opts.icons.unshift({
-                    iconCls: iconCls,
-                    handler: function(e){
-                        $(e.data.target).textbox('clear').textbox('textbox').focus();
-                        $(this).css('visibility','hidden');
-                        doSearch();
-                    }
-                });
-                t.textbox();
-                if (!t.textbox('getText')){
-                    t.textbox('getIcon',0).css('visibility','hidden');
-                }
-                t.textbox('textbox').bind('keyup', function(){
-                    var icon = t.textbox('getIcon',0);
-                    if ($(this).val()){
-                        icon.css('visibility','visible');
-                    } else {
-                        icon.css('visibility','hidden');
-                    }
-                });
-            });
-        }
-    });
-
-    $(function(){
-        $('#search').textbox().textbox('addClearBtn', 'icon-clear');
-    });
-
-    function doSearch(){
-        var key = $('#search').val();
-        $('#dg').datagrid('load',{
-            key:key
-        });
-    }
-
     var url;
     function newUser(){
         fm.form('reset');
         $('#dlg').dialog('open').dialog('center').dialog('setTitle','信息录入');
-        url =  "${pageContext.request.contextPath}/admin/addCustomer.do";
+        url =  "${pageContext.request.contextPath}/admin/addType.do";
     }
     function editUser(){
         fm.form('reset');
@@ -195,11 +98,11 @@
         if (row){
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','信息编辑');
             fm.form('load',row);
-            url = "${pageContext.request.contextPath}/admin/updateCustomer.do?id=" + row.id;
+            url = "${pageContext.request.contextPath}/admin/updateType.do?id=" + row.id;
         }
     }
     function destroyUser(){
-        url = "${pageContext.request.contextPath}/admin/deleteCustomer.do";
+        url = "${pageContext.request.contextPath}/admin/deleteType.do";
         var row = $('#dg').datagrid('getSelected');
         if (row){
             $.messager.confirm('警告','你确定要删除该数据?',function(r){
@@ -225,29 +128,13 @@
     }
 
     function submitData() {
-        var name = $("#name").val();
-        var gender = $('input:radio:checked').val();
-        var birth = $("#birth").val();
-        var IDCard = $("#IDCard").val();
-        var phone = $("#phone").val();
-        var email = $("#email").val();
-        var province = $("#province").val();
-        var city = $("#city").val();
-        var area = $("#area").val();
-        var address = province==null?"":province
-            + " " + city==null?"":city
-                + " " + area==null?"":area
-                    + " " + $("#address").val();
+        var typeName = $("#typeName").val();
+        var description = $("#description").val();
         $.post(
             url,
             {
-                name:name,
-                gender:gender,
-                birth:birth,
-                IDCard:IDCard,
-                phone:phone,
-                email:email,
-                address:address
+                typeName:typeName,
+                description:description
             } ,
             function (data) {
                 if (data.resultCode == 0){

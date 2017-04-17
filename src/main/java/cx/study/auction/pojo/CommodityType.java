@@ -1,11 +1,17 @@
 package cx.study.auction.pojo;
 
+import java.util.Date;
+
 public class CommodityType {
     private Integer id;
 
     private String typeName;
 
     private String description;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     public Integer getId() {
         return id;
@@ -29,5 +35,21 @@ public class CommodityType {
 
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }
