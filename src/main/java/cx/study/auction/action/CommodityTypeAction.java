@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +66,7 @@ public class CommodityTypeAction {
         type.setId(id);
         type.setTypeName(typeName);
         type.setDescription(description);
+        type.setUpdateTime(new Date());
         int code = commodityTypeService.update(type);
         ResponseMessage<String> responseMessage = new ResponseMessage<>();
         if(code == OK){
@@ -84,6 +86,7 @@ public class CommodityTypeAction {
         CommodityType type = new CommodityType();
         type.setTypeName(typeName);
         type.setDescription(description);
+        type.setCreateTime(new Date());
         int code = commodityTypeService.addType(type);
         ResponseMessage<String> responseMessage = new ResponseMessage<>();
         if(code == OK){
