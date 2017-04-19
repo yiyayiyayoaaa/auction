@@ -1,10 +1,12 @@
 package cx.study.auction.action;
 
 import com.google.gson.Gson;
+import cx.study.auction.pojo.Commodity;
 import cx.study.auction.pojo.Order;
 import cx.study.auction.pojo.ResponseMessage;
 import cx.study.auction.query.OrderQuery;
 import cx.study.auction.query.UserQuery;
+import cx.study.auction.service.CommodityService;
 import cx.study.auction.service.OrderService;
 import cx.study.auction.util.RequestUtil;
 import cx.study.auction.util.ResponseUtil;
@@ -31,6 +33,8 @@ import java.util.Map;
 public class OrderAction {
     @Resource
     private OrderService orderService;
+    @Resource
+    private CommodityService commodityService;
     private static final int OK = 1;
     private static final int ERROR = 0;
     @RequestMapping("/findAllOrders")
@@ -64,11 +68,13 @@ public class OrderAction {
         int code = orderService.updateOrder(order);
         ResponseMessage<String> responseMessage = new ResponseMessage<>();
         if (code == OK){
+            commodityService.commodityStatusChange(order.getCommodityId(), Commodity.CommodityStatus.CANCEL);
             responseMessage.setResultCode(OK);
-            responseMessage.setData("上架成功!");
+            responseMessage.setData("取消成功!");
+
         } else {
             responseMessage.setResultCode(ERROR);
-            responseMessage.setData("上架失败!");
+            responseMessage.setData("取消失败!");
         }
         String result = new Gson().toJson(responseMessage,ResponseMessage.class);
         ResponseUtil.writeJson(response,result);

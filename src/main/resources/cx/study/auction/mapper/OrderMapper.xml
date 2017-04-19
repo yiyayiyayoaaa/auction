@@ -31,11 +31,14 @@
   <insert id="addOrder" parameterType="cx.study.auction.pojo.Order" >
 
   </insert>
-    <select id="findOrderByUser" parameterType="java.lang.Integer" resultMap="OrderVoResultMap">
+    <select id="findOrderByUser" parameterType="cx.study.auction.query.OrderQuery" resultMap="OrderVoResultMap">
         SELECT <include refid="OrderVo_Column_List"/>
         FROM `order` o,commodity c,user u
         WHERE c.id = commodity_id AND u.id = user_id
-        AND user_id = #{id}
+        AND user_id = #{userId}
+        <if test="status >= 0">
+          AND o.status = #{status}
+        </if>
     </select>
   <select id="findAll" parameterType="cx.study.auction.query.OrderQuery" resultMap="OrderVoResultMap">
       SELECT <include refid="OrderVo_Column_List"/>

@@ -124,4 +124,13 @@ public class UserRest {
         Result result = new Result<>(0,"",allAddressByUser);
         ResponseUtil.writeJson(response,new Gson().toJson(result));
     }
+
+    /**
+     * 充值
+     * @param response
+     * @param json
+     */
+    public void recharge(HttpServletResponse response, @RequestBody JsonObject json){
+
+    }
 }

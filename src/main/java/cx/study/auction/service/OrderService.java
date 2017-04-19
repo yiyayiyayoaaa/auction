@@ -16,7 +16,11 @@ public interface OrderService {
 
     int updateOrder(Order order) throws Exception;
 
-    OrderVo findOrderByUser(int id) throws Exception;
+    List<OrderVo> findOrderByUser(OrderQuery query) throws Exception;
 
     List<OrderVo> findAll(OrderQuery query) throws Exception;
+
+    int pay(int id) throws Exception;
+
+    int cancel(int id) throws Exception;
 }

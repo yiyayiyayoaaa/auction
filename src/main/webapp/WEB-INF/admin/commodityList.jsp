@@ -43,6 +43,8 @@
                     return "其他";
                 case 6:
                     return "下架";
+                case 7:
+                    return "交易取消";
             }
         }
 

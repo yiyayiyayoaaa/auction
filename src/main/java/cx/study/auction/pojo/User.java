@@ -1,6 +1,5 @@
 package cx.study.auction.pojo;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class User {
@@ -28,7 +27,7 @@ public class User {
 
     private Integer status;
 
-    private BigDecimal account;
+    private Double account;
 
     private String paymentPassword;
 
@@ -132,11 +131,11 @@ public class User {
         this.status = status;
     }
 
-    public BigDecimal getAccount() {
+    public Double getAccount() {
         return account;
     }
 
-    public void setAccount(BigDecimal account) {
+    public void setAccount(Double account) {
         this.account = account;
     }
 

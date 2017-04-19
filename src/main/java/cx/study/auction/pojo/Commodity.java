@@ -12,6 +12,7 @@ public class Commodity {
         int UNSOLD = 4;
         int OTHER = 5;
         int OFF = 6;
+        int CANCEL = 7;
     }
     private Integer id;
 

@@ -21,5 +21,5 @@ public interface OrderMapper {
 
     List<OrderVo> findAll(OrderQuery query);
 
-    OrderVo findOrderByUser(int id);
+    List<OrderVo> findOrderByUser(OrderQuery query);
 }
