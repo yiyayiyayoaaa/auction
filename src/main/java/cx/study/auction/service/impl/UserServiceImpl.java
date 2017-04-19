@@ -19,7 +19,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
 
     @Resource
-    UserMapper userMapper;
+    private UserMapper userMapper;
     @Override
     public User login(User user) {
         return userMapper.login(user);
@@ -35,6 +35,16 @@ public class UserServiceImpl implements UserService{
     @Override
     public int addUserAddress(UserAddress address) {
         return userMapper.insertAddress(address);
+    }
+
+    @Override
+    public int update(UserAddress address) {
+        return userMapper.updateAddress(address);
+    }
+
+    @Override
+    public int delete(int id) {
+        return userMapper.deleteAddress(id);
     }
 
     @Override

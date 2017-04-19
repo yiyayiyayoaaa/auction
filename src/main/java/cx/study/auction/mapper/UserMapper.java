@@ -34,5 +34,9 @@ public interface UserMapper {
 
     List<UserAddress> getAddressByUserId(int id);
 
+    int deleteAddress(int id);
+
+    int updateAddress(UserAddress address);
+
     List<User> findUser(UserQuery query);
 }

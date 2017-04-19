@@ -16,6 +16,8 @@ public interface UserService {
     int register(User user);
 
     int addUserAddress(UserAddress address);
+    int update(UserAddress address);
+    int delete(int id);
 
     List<UserAddress> findAllAddressByUser(int id);
 

@@ -30,13 +30,23 @@
     id, username, password, portrait, nickname, name, birth, gender, IDCard, phone, email, 
     status, account, payment_password, registration_time, update_time
   </sql>
-    <insert id="insertUserAddress" parameterType="cx.study.auction.pojo.UserAddress">
+    <insert id="insertAddress" parameterType="cx.study.auction.pojo.UserAddress">
         INSERT INTO user_address(user_id,address,time)
-        VALUES (#{id,jdbcType=INTEGER},#{userId,jdbcType=INTEGER},#{address,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP})
+        VALUES (#{userId,jdbcType=INTEGER},#{address,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP})
     </insert>
     <select id="getAddressByUserId" parameterType="java.lang.Integer" resultMap="AddressResultMap">
       SELECT id,user_id,address,time FROM user_address WHERE user_id = #{id,jdbcType=INTEGER}
     </select>
+
+  <update id="updateAddress" parameterType="cx.study.auction.pojo.UserAddress">
+    UPDATE user_address
+    SET address = #{address},time=#{time}
+    WHERE id = #{id}
+  </update>
+
+    <delete id="deleteAddress" parameterType="java.lang.Integer">
+        DELETE FROM user_address WHERE id = #{id}
+    </delete>
   <insert id="register" parameterType="cx.study.auction.pojo.User">
     insert into user (id, username, password,
       portrait, nickname, name,
