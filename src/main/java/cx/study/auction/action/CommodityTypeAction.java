@@ -87,6 +87,7 @@ public class CommodityTypeAction {
         type.setTypeName(typeName);
         type.setDescription(description);
         type.setCreateTime(new Date());
+        type.setUpdateTime(new Date());
         int code = commodityTypeService.addType(type);
         ResponseMessage<String> responseMessage = new ResponseMessage<>();
         if(code == OK){

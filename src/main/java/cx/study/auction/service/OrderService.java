@@ -1,6 +1,10 @@
 package cx.study.auction.service;
 
 import cx.study.auction.pojo.Order;
+import cx.study.auction.query.OrderQuery;
+import cx.study.auction.vo.OrderVo;
+
+import java.util.List;
 
 /**
  *
@@ -12,4 +16,7 @@ public interface OrderService {
 
     int updateOrder(Order order) throws Exception;
 
+    OrderVo findOrderByUser(int id) throws Exception;
+
+    List<OrderVo> findAll(OrderQuery query) throws Exception;
 }

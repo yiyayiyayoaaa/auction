@@ -14,14 +14,36 @@
     <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  <resultMap id="OrderVoResultMap" type="cx.study.auction.vo.OrderVo" extends="BaseResultMap">
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="commodity_name" property="commodityName" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, order_num, commodity_id, address, price, pay_time, end_time, status, user_id, 
     start_time, update_time
   </sql>
 
+    <sql id="OrderVo_Column_List" >
+        o.id, order_num, o.commodity_id,commodity_name, o.address, o.price, o.pay_time, o.end_time, o.status, o.user_id,username,phone,
+        o.start_time, o.update_time
+    </sql>
   <insert id="addOrder" parameterType="cx.study.auction.pojo.Order" >
 
   </insert>
+    <select id="findOrderByUser" parameterType="java.lang.Integer" resultMap="OrderVoResultMap">
+        SELECT <include refid="OrderVo_Column_List"/>
+        FROM `order` o,commodity c,user u
+        WHERE c.id = commodity_id AND u.id = user_id
+        AND user_id = #{id}
+    </select>
+  <select id="findAll" parameterType="cx.study.auction.query.OrderQuery" resultMap="OrderVoResultMap">
+      SELECT <include refid="OrderVo_Column_List"/>
+      FROM `order` o,commodity c,user u
+      WHERE c.id = commodity_id AND u.id = user_id
+      <if test="keyWord != null"> AND (username LIKE #{keyWord} OR order_num LIKE #{keyWord})</if>
+      <if test="rows != 0">limit #{startRow},#{rows}</if>
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

@@ -55,7 +55,7 @@
                     </div>
                     <div title="交易管理"  style="padding:10px;">
                         <a href="#" class="easyui-linkbutton" data-options="plain:true">交易信息</a><br>
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">订单管理</a>
+                        <a href="javascript:openTab('订单管理','${pageContext.request.contextPath}/admin/orderList.do')" class="easyui-linkbutton" data-options="plain:true">订单管理</a>
                     </div>
                     <div title="用户管理"  style="padding:10px;">
                         <a href="javascript:openTab('客户列表','${pageContext.request.contextPath}/admin/customerList.do')" class="easyui-linkbutton" data-options="plain:true">客户列表</a><br>
@@ -79,7 +79,7 @@
             <div data-options="region:'center'">
                <div id="tabs" class="easyui-tabs" style="width:100%;height:100%;">
                     <div title="首页" style="padding:10px;display:none;">
-                        tab1
+                        <img src="${pageContext.request.contextPath}/chart/pie.do" >
                     </div>
                 </div>
             </div>

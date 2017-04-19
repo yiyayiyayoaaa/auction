@@ -1,6 +1,10 @@
 package cx.study.auction.mapper;
 
 import cx.study.auction.pojo.Order;
+import cx.study.auction.query.OrderQuery;
+import cx.study.auction.vo.OrderVo;
+
+import java.util.List;
 
 public interface OrderMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +18,8 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+
+    List<OrderVo> findAll(OrderQuery query);
+
+    OrderVo findOrderByUser(int id);
 }

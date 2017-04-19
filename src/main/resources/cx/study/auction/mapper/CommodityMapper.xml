@@ -102,6 +102,17 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
+
+  <select id="getCommodityCount" parameterType="cx.study.auction.query.CommodityCountQuery" resultType="cx.study.auction.pojo.CommodityCount">
+    SELECT DATE_FORMAT(end_time,'%m') `month`,COUNT(id) `count` FROM commodity c
+      WHERE end_time &lt;= #{end} AND end_time &gt;= #{start}
+      <if test="status != -1">
+      AND  c.status = #{status}
+      </if>
+      GROUP BY `month`
+  </select>
+
+
   <select id="findCommodityVoById" resultMap="CommodityListResultMap" parameterType="java.lang.Integer" >
       SELECT co.id, commodity_name, type_id, type_name,co.description, customer_id, cu.name customer_name,appraised_price, reserve_price,
       starting_price, bid_increments, hammer_price, bidding_deposit, status, start_time,

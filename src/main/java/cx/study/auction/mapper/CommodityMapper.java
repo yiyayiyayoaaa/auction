@@ -2,7 +2,9 @@ package cx.study.auction.mapper;
 
 import cx.study.auction.pojo.BidRecord;
 import cx.study.auction.pojo.Commodity;
+import cx.study.auction.pojo.CommodityCount;
 import cx.study.auction.pojo.CommodityImage;
+import cx.study.auction.query.CommodityCountQuery;
 import cx.study.auction.query.CommodityQuery;
 import cx.study.auction.vo.CommodityVo;
 
@@ -26,4 +28,6 @@ public interface CommodityMapper {
     int addBidRecord(BidRecord bidRecord) throws Exception;
 
     List<BidRecord> findBidRecords(int commodityId) throws Exception;
+
+    List<CommodityCount> getCommodityCount(CommodityCountQuery query);
 }

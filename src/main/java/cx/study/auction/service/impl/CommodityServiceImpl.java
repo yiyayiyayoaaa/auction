@@ -3,6 +3,7 @@ package cx.study.auction.service.impl;
 import cx.study.auction.mapper.CommodityMapper;
 import cx.study.auction.pojo.*;
 import cx.study.auction.pojo.Commodity.CommodityStatus;
+import cx.study.auction.query.CommodityCountQuery;
 import cx.study.auction.query.CommodityQuery;
 import cx.study.auction.service.CommodityService;
 import cx.study.auction.service.OrderService;
@@ -11,8 +12,7 @@ import cx.study.auction.vo.CommodityVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -126,6 +126,54 @@ public class CommodityServiceImpl implements CommodityService{
             });
         }
         return i;
+    }
+
+    @Override
+    public List<CommodityStatistics> getCommodityStatistics() throws Exception {
+        Set<CommodityCount> set1 = new LinkedHashSet<>();
+        Set<CommodityCount> set2 = new LinkedHashSet<>();
+        Set<CommodityCount> set3 = new LinkedHashSet<>();
+        List<CommodityStatistics> statistics = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        Date end = calendar.getTime();
+        calendar.set(Calendar.MONTH,Calendar.JANUARY);
+        calendar.set(Calendar.DAY_OF_MONTH,1);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
+        Date start = calendar.getTime();
+        CommodityCountQuery query = new CommodityCountQuery();
+        query.setStart(start);
+        query.setEnd(end);
+        query.setStatus(-1);
+        List<CommodityCount> list = commodityMapper.getCommodityCount(query);
+        Collections.sort(list);
+        int size = 12;
+        set1.addAll(list);
+        for (int i = 1; i <= size; i ++){
+            set1.add(new CommodityCount(i,0));
+        }
+        CommodityStatistics statistics1 = new CommodityStatistics(query.getStatus(),set1);
+        statistics.add(statistics1);
+        query.setStatus(CommodityStatus.SUCCESS);
+        list = commodityMapper.getCommodityCount(query);
+        Collections.sort(list);
+        set2.addAll(list);
+        for (int i = 1; i <= size; i ++){
+            set2.add(new CommodityCount(i,0));
+        }
+        statistics1 = new CommodityStatistics(query.getStatus(),set2);
+        statistics.add(statistics1);
+        query.setStatus(CommodityStatus.UNSOLD);
+        list = commodityMapper.getCommodityCount(query);
+        set3.addAll(list);
+        for (int i = 1; i <= size; i ++){
+            set3.add(new CommodityCount(i,0));
+        }
+        statistics1 = new CommodityStatistics(query.getStatus(),set3);
+        statistics.add(statistics1);
+        return statistics;
     }
 
     private Order createOrder(Commodity commodity) throws Exception {

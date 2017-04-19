@@ -52,7 +52,7 @@
     <tr>
         <th data-options="field:'typeName',align:'center'">分类名称</th>
         <th data-options="field:'description',align:'center'">分类描述</th>
-        <th data-options="field:'registrationTime',align:'center',formatter:DateTimeFormatter">创建日期</th>
+        <th data-options="field:'createTime',align:'center',formatter:DateTimeFormatter">创建日期</th>
         <th data-options="field:'updateTime',align:'center',formatter:DateTimeFormatter">修改日期</th>
     </tr>
     </thead>
