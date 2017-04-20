@@ -1,10 +1,12 @@
 package cx.study.auction.service.impl;
 
 import cx.study.auction.mapper.CommodityMapper;
+import cx.study.auction.mapper.UserMapper;
 import cx.study.auction.pojo.*;
 import cx.study.auction.pojo.Commodity.CommodityStatus;
 import cx.study.auction.query.CommodityCountQuery;
 import cx.study.auction.query.CommodityQuery;
+import cx.study.auction.query.DepositQuery;
 import cx.study.auction.service.CommodityService;
 import cx.study.auction.service.OrderService;
 import cx.study.auction.util.OrderNumUtil;
@@ -27,6 +29,8 @@ public class CommodityServiceImpl implements CommodityService{
 
     @Resource
     private CommodityMapper commodityMapper;
+    @Resource
+    private UserMapper userMapper;
     @Resource
     private OrderService orderService;
     public List<CommodityVo> findCommodity(CommodityQuery commodityQuery) throws Exception {
@@ -225,6 +229,29 @@ public class CommodityServiceImpl implements CommodityService{
     public Result findBidRecordById(int commodityId) throws Exception {
         List<BidRecord> records = commodityMapper.findBidRecords(commodityId);
         return new Result<>(0,"",records);
+    }
+
+    @Override
+    public int payDeposit(int userId, int commodityId) throws Exception {
+        Commodity commodity = commodityMapper.findCommodityById(commodityId);
+        User user = userMapper.selectByPrimaryKey(userId);
+        double deposit = commodity.getBiddingDeposit();
+        Double account = user.getAccount();
+        if (account == null){
+            account = 0d;
+        }
+        if (account <deposit){
+            return -1;
+        }
+        user.setAccount(account - deposit);
+        user.setUpdateTime(new Date());
+        userMapper.updateByPrimaryKeySelective(user);
+        return commodityMapper.payDeposit(new Deposit(userId, commodityId, new Date()));
+    }
+
+    @Override
+    public Deposit findUserIsPayDeposit(int userId, int commodityId) throws Exception {
+        return commodityMapper.findUserIsPayDeposit(new DepositQuery(userId,commodityId));
     }
 
     private void startScheduledExecutorService(long delay,Runnable runnable){

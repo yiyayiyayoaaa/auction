@@ -54,7 +54,13 @@ public class UserRest {
         ResponseUtil.writeJson(response,new Gson().toJson(map));
     }
 
-
+    @RequestMapping("/userInfo")
+    public void userInfo(HttpServletResponse response, @RequestBody JsonObject json) throws Exception {
+        int id = json.get("id").getAsInt();
+        User user = userService.findUserById(id);
+        Result result = new Result<>(0,"",user);
+        ResponseUtil.writeJson(response,new Gson().toJson(result));
+    }
     /**
      * 注册
      * @throws Exception
@@ -130,7 +136,19 @@ public class UserRest {
      * @param response
      * @param json
      */
-    public void recharge(HttpServletResponse response, @RequestBody JsonObject json){
-
+    @RequestMapping("/recharge")
+    public void recharge(HttpServletResponse response, @RequestBody JsonObject json) throws Exception {
+        int userId = json.get("userId").getAsInt();
+        int money = json.get("money").getAsInt();
+        User user = userService.findUserById(userId);
+        user.setAccount(user.getAccount() + money);
+        int i = userService.updateUserSelective(user);
+        Result result;
+        if (i == 1){
+            result = new Result<>(0,"请求成功",0);
+        } else {
+            result = new Result<>(1,"请求失败",1);
+        }
+        ResponseUtil.writeJson(response,new Gson().toJson(result));
     }
 }

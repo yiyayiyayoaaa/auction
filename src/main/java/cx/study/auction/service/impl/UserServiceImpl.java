@@ -56,4 +56,15 @@ public class UserServiceImpl implements UserService{
     public List<User> findUser(UserQuery query) {
         return userMapper.findUser(query);
     }
+
+    @Override
+    public int updateUserSelective(User user) {
+        user.setUpdateTime(new Date());
+        return userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
+    public User findUserById(int id) {
+        return userMapper.selectByPrimaryKey(id);
+    }
 }

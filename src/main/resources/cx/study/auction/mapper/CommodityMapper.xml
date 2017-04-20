@@ -48,6 +48,13 @@
         <result column="bid_time" property="bidTime" jdbcType="TIMESTAMP" />
     </resultMap>
 
+    <resultMap id="DepositResultMap" type="cx.study.auction.pojo.Deposit">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="commodity_id" property="commodityId" jdbcType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="time" property="time" jdbcType="TIMESTAMP" />
+    </resultMap>
+
   <select id="findBidRecords" parameterType="java.lang.Integer" resultMap="BidRecordResultMap">
     SELECT id,commodity_id,user_id,bid_price,bid_time
     FROM bid_record
@@ -102,6 +109,15 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
+  <insert id="payDeposit" parameterType="cx.study.auction.pojo.Deposit" >
+      INSERT INTO deposit(user_id,commodity_id,time)
+      VALUES (#{userId},#{commodityId},#{time})
+  </insert>
+
+    <select id="findUserIsPayDeposit" parameterType="cx.study.auction.query.DepositQuery" resultMap="DepositResultMap">
+        SELECT * FROM deposit
+        WHERE user_id = #{userId} AND commodity_id = #{commodityId}
+    </select>
 
   <select id="getCommodityCount" parameterType="cx.study.auction.query.CommodityCountQuery" resultType="cx.study.auction.pojo.CommodityCount">
     SELECT DATE_FORMAT(end_time,'%m') `month`,COUNT(id) `count` FROM commodity c

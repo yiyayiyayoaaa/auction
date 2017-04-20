@@ -22,4 +22,8 @@ public interface UserService {
     List<UserAddress> findAllAddressByUser(int id);
 
     List<User> findUser(UserQuery query);
+
+    int updateUserSelective(User user);
+
+    User findUserById(int id);
 }

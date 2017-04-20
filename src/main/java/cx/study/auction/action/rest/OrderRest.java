@@ -34,6 +34,7 @@ public class OrderRest {
         query.setUserId(userId);
         if (status < 0){
             //查全部
+            query.setStatus(-1);
         } else {
             //根据status查
             query.setStatus(status);

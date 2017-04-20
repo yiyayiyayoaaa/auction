@@ -2,6 +2,7 @@ package cx.study.auction.service;
 
 import cx.study.auction.pojo.*;
 import cx.study.auction.query.CommodityQuery;
+import cx.study.auction.query.DepositQuery;
 import cx.study.auction.vo.CommodityVo;
 
 import java.util.List;
@@ -30,4 +31,8 @@ public interface CommodityService {
     Result saveBidRecord(BidRecord bidRecord) throws Exception;
 
     Result findBidRecordById(int commodity) throws Exception;
+
+    int payDeposit(int userId, int commodityId) throws Exception;
+
+    Deposit findUserIsPayDeposit(int userId, int commodityId) throws Exception;
 }
