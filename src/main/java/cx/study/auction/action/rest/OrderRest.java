@@ -26,6 +26,15 @@ public class OrderRest {
     @Resource
     private OrderService orderService;
 
+    @RequestMapping("/orderInfo")
+    public void getOrderById(HttpServletResponse response, @RequestBody()JsonObject json) throws Exception {
+        int id = json.get("id").getAsInt();
+        OrderVo orderVo = orderService.findOrderById(id);
+        Result result = new Result<>(0,"",orderVo);
+        ResponseUtil.writeJson(response,new Gson().toJson(result));
+    }
+
+
     @RequestMapping("/orderList")
     public void getOrderListByStatus(HttpServletResponse response, @RequestBody()JsonObject json) throws Exception{
         int userId = json.get("userId").getAsInt();
@@ -43,13 +52,13 @@ public class OrderRest {
         Result result = new Result<>(0,"",orderVos);
         ResponseUtil.writeJson(response,new Gson().toJson(result));
     }
-
-    //支付  需要验证支付密码 支付成功退回保证金
+    //支付   支付成功退回保证金
     @RequestMapping("pay")
     public void pay(HttpServletResponse response,@RequestBody()JsonObject json) throws Exception {
         int id = json.get("id").getAsInt();  //订单id
+        String address = json.get("address").getAsString();
         //支付逻辑
-        int pay = orderService.pay(id);
+        int pay = orderService.pay(id,address);
         Result result;
         if (pay > 0){
             //成功

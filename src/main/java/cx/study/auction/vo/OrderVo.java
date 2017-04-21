@@ -8,6 +8,8 @@ import cx.study.auction.pojo.Order;
  */
 public class OrderVo extends Order{
     private String commodityName;
+    private String description;
+    private String url;
     private String username;
     private String phone;
 
@@ -33,5 +35,21 @@ public class OrderVo extends Order{
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

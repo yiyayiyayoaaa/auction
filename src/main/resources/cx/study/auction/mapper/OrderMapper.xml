@@ -17,6 +17,8 @@
   <resultMap id="OrderVoResultMap" type="cx.study.auction.vo.OrderVo" extends="BaseResultMap">
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="commodity_name" property="commodityName" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -25,21 +27,32 @@
   </sql>
 
     <sql id="OrderVo_Column_List" >
-        o.id, order_num, o.commodity_id,commodity_name, o.address, o.price, o.pay_time, o.end_time, o.status, o.user_id,username,phone,
+        o.id, order_num, o.commodity_id,commodity_name,c.description,o.address, o.price, o.pay_time, o.end_time, o.status, o.user_id,username,phone,
         o.start_time, o.update_time
     </sql>
   <insert id="addOrder" parameterType="cx.study.auction.pojo.Order" >
 
   </insert>
+
+  <select id="findOrderById" resultMap="OrderVoResultMap">
+    SELECT  <include refid="OrderVo_Column_List"/> ,i.url
+    FROM `order` o
+    LEFT JOIN commodity c ON c.id = o.commodity_id
+    LEFT JOIN `user` u ON u.id = o.user_id
+    LEFT JOIN commodity_image i ON c.id = i.commodity_id
+    WHERE o.id = #{id}
+  </select>
     <select id="findOrderByUser" parameterType="cx.study.auction.query.OrderQuery" resultMap="OrderVoResultMap">
-        SELECT <include refid="OrderVo_Column_List"/>
-        FROM `order` o,commodity c,user u
-        WHERE c.id = commodity_id AND u.id = user_id
-        AND user_id = #{userId}
-        <if test="status >= 0">
-          AND o.status = #{status}
-        </if>
+      SELECT  <include refid="OrderVo_Column_List"/> ,i.url
+      FROM `order` o
+      LEFT JOIN commodity c ON c.id = o.commodity_id
+      LEFT JOIN `user` u ON u.id = o.user_id AND o.user_id = #{userId}
+      LEFT JOIN commodity_image i ON c.id = i.commodity_id
+      <if test="status >= 0">
+        WHERE o.status = #{status}
+      </if>
     </select>
+
   <select id="findAll" parameterType="cx.study.auction.query.OrderQuery" resultMap="OrderVoResultMap">
       SELECT <include refid="OrderVo_Column_List"/>
       FROM `order` o,commodity c,user u

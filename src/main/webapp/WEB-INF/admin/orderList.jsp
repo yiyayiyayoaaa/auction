@@ -85,6 +85,7 @@
 <div id="toolbar">
     <%--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">新建分类</a>--%>
     <%--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改</a>--%>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="send()">发货</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">取消订单</a>
     <div style="width: 220px;float: right;margin-right: 10px">
         <input id="search" class="easyui-textbox"  style="width: 100%" data-options="buttonText:'查询',onClickButton:doSearch,buttonAlign:'left',buttonIcon:'icon-search'"/>
@@ -130,6 +131,10 @@
     function destroyUser(){
         url = "${pageContext.request.contextPath}/admin/cancelOrder.do";
         var row = $('#dg').datagrid('getSelected');
+        if (row.status == 4){
+            showMessage("ERROR","该订单已取消！");
+            return;
+        }
         if (row){
             $.messager.confirm('警告','你确定要取消该订单?',function(r){
                 if (r){
@@ -147,6 +152,32 @@
             });
         }
     }
+
+    function send() {
+        url = "${pageContext.request.contextPath}/admin/send.do";
+        var row = $('#dg').datagrid('getSelected');
+        if (row.status != 1){
+            showMessage("ERROR","该订单还未支付！");
+            return;
+        }
+        if (row){
+            $.messager.confirm('警告','是否确定发货?',function(r){
+                if (r){
+                    $.post(url,{id:row.id},function(data){
+                        if (data.resultCode == 1){
+                            $('#dg').datagrid('reload');    // reload the user data
+                        } else {
+                            $.messager.show({    // show error message
+                                title: 'Error',
+                                msg: data.data
+                            });
+                        }
+                    },'json');
+                }
+            });
+        }
+    }
+
     function doSearch(){
         var key = $('#search').val();
         $('#dg').datagrid('load',{

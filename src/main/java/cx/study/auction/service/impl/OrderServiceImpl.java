@@ -14,8 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -40,8 +39,16 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
+    public OrderVo findOrderById(int id) throws Exception {
+        List<OrderVo> orderVos = orderMapper.findOrderById(id);
+        return orderVos.get(0);
+    }
+
+    @Override
     public List<OrderVo> findOrderByUser(OrderQuery query) throws Exception {
-        return orderMapper.findOrderByUser(query);
+        Set<OrderVo> orders = new HashSet<>();
+        orders.addAll(orderMapper.findOrderByUser(query));
+        return new ArrayList<>(orders);
     }
 
     @Override
@@ -50,7 +57,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public int pay(int id) throws Exception {
+    public int pay(int id,String address) throws Exception {
         //找出订单
         Order order = orderMapper.selectByPrimaryKey(id);
         if (order.getStatus() == 0){
@@ -71,6 +78,7 @@ public class OrderServiceImpl implements OrderService{
                 order.setStatus(1);//设置订单状态为已支付
                 order.setPayTime(new Date());
                 order.setUpdateTime(new Date());
+                order.setAddress(address);
                 return orderMapper.updateByPrimaryKeySelective(order);
             }
             return i;
@@ -86,8 +94,6 @@ public class OrderServiceImpl implements OrderService{
             if (order.getStatus() == 0){
                 //未支付  //取消订单  不退保证金
                 order.setStatus(4);
-                order.setUpdateTime(new Date());
-                orderMapper.updateByPrimaryKeySelective(order);
             } else {
                 //已支付  //取消订单，退还支付金额，扣除保证金 + 百分之5的费用
                 //查询对应订单及用户
@@ -103,7 +109,9 @@ public class OrderServiceImpl implements OrderService{
                     commodityMapper.updateCommodity(commodity);
                 }
             }
-            orderMapper.updateByPrimaryKeySelective(order);
+            order.setUpdateTime(new Date());
+            order.setEndTime(new Date());
+            return orderMapper.updateByPrimaryKeySelective(order);
         }
         return 0;
     }
