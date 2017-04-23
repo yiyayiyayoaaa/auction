@@ -15,6 +15,8 @@ public interface CommodityService {
 
     List<CommodityVo> findCommodity(CommodityQuery commodityQuery) throws Exception;
 
+    List<CommodityVo> findCommodity(int userId) throws Exception;
+
     List<CommodityVo> findCommodityWithImg(CommodityQuery commodityQuery) throws Exception;
 
     CommodityVo findCommodityById(Integer id) throws Exception;

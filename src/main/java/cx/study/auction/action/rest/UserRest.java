@@ -7,6 +7,7 @@ import cx.study.auction.pojo.Result;
 import cx.study.auction.pojo.User;
 import cx.study.auction.pojo.UserAddress;
 import cx.study.auction.service.UserService;
+import cx.study.auction.util.DefaultNicknameUtil;
 import cx.study.auction.util.ResponseUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UnknownFormatConversionException;
+import java.util.*;
 
 
 /**
@@ -72,6 +70,8 @@ public class UserRest {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
+        user.setNickname(DefaultNicknameUtil.buildNickname());
+        user.setRegistrationTime(new Date());
         int register = userService.register(user);
         Result result;
         if (register == 1){

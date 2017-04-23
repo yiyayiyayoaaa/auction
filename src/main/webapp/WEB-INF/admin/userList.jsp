@@ -52,7 +52,7 @@
 <body>
     <div style="margin:5px 0;"></div>
 
-    <table id="dg" class="easyui-datagrid" title="客户信息" style="width:100%;height:600px"
+    <table id="dg" class="easyui-datagrid" title="客户信息" style="width:100%;height:500px"
            toolbar="#toolbar" data-options="pageSize:20,rownumbers:true,fitColumns:true,pagination:true,singleSelect:true,collapsible:true,
            url:'${pageContext.request.contextPath}/admin/findUser.do',method:'get'">
         <thead>

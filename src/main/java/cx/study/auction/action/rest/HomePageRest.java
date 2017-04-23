@@ -46,7 +46,7 @@ public class HomePageRest {
         query.setStatus(Commodity.CommodityStatus.WAIT_AUCTION);
         commodityList = commodityService.findCommodityWithImg(query);
         getHomeItems(commodityList, homeItems);
-        Result result = new Result(0,"",homeItems);
+        Result result = new Result<>(0,"",homeItems);
         ResponseUtil.writeJson(response,new Gson().toJson(result));
     }
 

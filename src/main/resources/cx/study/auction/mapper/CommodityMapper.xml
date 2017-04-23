@@ -55,6 +55,14 @@
         <result column="time" property="time" jdbcType="TIMESTAMP" />
     </resultMap>
 
+    <select id="findAuction" parameterType="java.lang.Integer" resultMap="CommodityListResultMap">
+     SELECT co.id, commodity_name, type_id, type_name,co.description, customer_id, cu.name customer_name,appraised_price, reserve_price,
+        starting_price, bid_increments, hammer_price, bidding_deposit, status, start_time,
+        end_time, co.registration_time, co.update_time
+      FROM  commodity co, commodity_type ct, customer cu,deposit d
+      WHERE co.type_id = ct.id AND co.customer_id = cu.id AND d.commodity_id = co.id AND d.user_id = #{userId}
+    </select>
+
   <select id="findBidRecords" parameterType="java.lang.Integer" resultMap="BidRecordResultMap">
     SELECT id,commodity_id,user_id,bid_price,bid_time
     FROM bid_record

@@ -40,7 +40,15 @@
             var date = new Date(value);
             return date.toLocaleString();
         }
-
+        function AddressFormatter1(value) {
+            return value.replace("@"," ");
+        }
+        function AddressFormatter2(value) {
+            return value.split("@")[1];
+        }
+        function AddressFormatter3(value) {
+            return value.split("@")[2];
+        }
         function StatusFormatter(value) {
             if (value == 0) {
                 return "待支付";
@@ -58,12 +66,13 @@
                 return "已取消";
             }
         }
+
     </script>
 </head>
 <body>
 <div style="margin:5px 0;"></div>
 
-<table id="dg" class="easyui-datagrid" title="分类管理" style="width:100%;height:600px"
+<table id="dg" class="easyui-datagrid" title="分类管理" style="width:100%;height:500px"
        toolbar="#toolbar" data-options="pageSize:20,rownumbers:true,fitColumns:true,pagination:true,singleSelect:true,collapsible:true,
            url:'${pageContext.request.contextPath}/admin/findAllOrders.do',method:'get'">
     <thead>
@@ -72,8 +81,8 @@
         <th data-options="field:'commodityName',align:'center'">商品名</th>
         <th data-options="field:'address',align:'center'">收货地址</th>
         <th data-options="field:'price',align:'center'">金额</th>
-        <th data-options="field:'username',align:'center'">收货人</th>
-        <th data-options="field:'phone',align:'center'">收货人联系电话</th>
+        <%--<th data-options="field:'address',align:'center',formatter:AddressFormatter2">收货人</th>--%>
+        <%--<th data-options="field:'address',align:'center',formatter:AddressFormatter3">收货人联系电话</th>--%>
         <th data-options="field:'status',align:'center',formatter:StatusFormatter">订单状态</th>
         <th data-options="field:'payTime',align:'center',formatter:DateTimeFormatter">支付时间</th>
         <th data-options="field:'endTime',align:'center',formatter:DateTimeFormatter">结束时间</th>

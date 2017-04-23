@@ -79,4 +79,26 @@ public class OrderAction {
         String result = new Gson().toJson(responseMessage,ResponseMessage.class);
         ResponseUtil.writeJson(response,result);
     }
+
+    @RequestMapping("/send")
+    public void send(HttpServletResponse response,HttpServletRequest request) throws Exception{
+        Integer id = RequestUtil.getInteger(request, "id");
+        Order order = new Order();
+        order.setId(id);
+        order.setUpdateTime(new Date());
+        order.setStatus(2);
+        int code = orderService.updateOrder(order);
+        ResponseMessage<String> responseMessage = new ResponseMessage<>();
+        if (code == OK){
+            commodityService.commodityStatusChange(order.getCommodityId(), Commodity.CommodityStatus.CANCEL);
+            responseMessage.setResultCode(OK);
+            responseMessage.setData("发货成功!");
+
+        } else {
+            responseMessage.setResultCode(ERROR);
+            responseMessage.setData("发货失败!");
+        }
+        String result = new Gson().toJson(responseMessage,ResponseMessage.class);
+        ResponseUtil.writeJson(response,result);
+    }
 }

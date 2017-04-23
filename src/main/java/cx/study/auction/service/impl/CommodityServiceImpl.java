@@ -38,6 +38,16 @@ public class CommodityServiceImpl implements CommodityService{
     }
 
     @Override
+    public List<CommodityVo> findCommodity(int userId) throws Exception {
+        List<CommodityVo> commodities = commodityMapper.findAuction(userId);
+        for (CommodityVo commodityVo : commodities){
+            List<String> images = commodityMapper.findImageByCId(commodityVo.getId());
+            commodityVo.setImageUrls(images);
+        }
+        return commodities;
+    }
+
+    @Override
     public List<CommodityVo> findCommodityWithImg(CommodityQuery commodityQuery) throws Exception {
         List<CommodityVo> commodities = this.findCommodity(commodityQuery);
         for (CommodityVo commodityVo : commodities){

@@ -32,9 +32,9 @@ import java.util.Map;
 public class CommodityRest {
 
     @Resource
-    CommodityService commodityService;
+    private CommodityService commodityService;
     @Resource
-    CommodityTypeService commodityTypeService;
+    private CommodityTypeService commodityTypeService;
     @RequestMapping("/findCommodityById")
     public void findCommodityById(HttpServletResponse response, @RequestBody()JsonObject json) throws Exception {
         //Integer id = RequestUtil.getInteger(request, "commodityId");
@@ -64,7 +64,7 @@ public class CommodityRest {
     @RequestMapping("/commodityType")
     public void getCommodityTypes(HttpServletResponse response, @RequestBody()JsonObject json) throws Exception {
         List<CommodityType> list  = commodityTypeService.findAll();
-        Result<List<CommodityType>> result = new Result(0,"",list);
+        Result<List<CommodityType>> result = new Result<>(0,"",list);
         ResponseUtil.writeJson(response,new Gson().toJson(result));
     }
 
@@ -101,7 +101,15 @@ public class CommodityRest {
             commodityVos.addAll(list1);
             commodityVos.addAll(list2);
         }
-        Result result = new Result(0,"",commodityVos);
+        Result result = new Result<>(0,"",commodityVos);
+        ResponseUtil.writeJson(response,new Gson().toJson(result));
+    }
+
+    @RequestMapping("/auction")
+    public void auction(HttpServletResponse response, @RequestBody()JsonObject json) throws Exception {
+        int userId = json.get("userId").getAsInt();
+        List<CommodityVo> commodityVos = commodityService.findCommodity(userId);
+        Result result = new Result<>(0,"",commodityVos);
         ResponseUtil.writeJson(response,new Gson().toJson(result));
     }
 }

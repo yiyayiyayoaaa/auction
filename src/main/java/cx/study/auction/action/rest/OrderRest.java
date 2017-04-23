@@ -2,6 +2,7 @@ package cx.study.auction.action.rest;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import cx.study.auction.pojo.Order;
 import cx.study.auction.pojo.Result;
 import cx.study.auction.query.OrderQuery;
 import cx.study.auction.service.OrderService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -82,6 +84,24 @@ public class OrderRest {
             result = new Result<>(0,"取消成功",cancel);
         } else {
             result = new Result<>(1,"取消失败",cancel);
+        }
+        ResponseUtil.writeJson(response,new Gson().toJson(result));
+    }
+
+    @RequestMapping("/finish")
+    public void finish(HttpServletResponse response,@RequestBody()JsonObject json) throws Exception {
+        int id = json.get("id").getAsInt();
+        Order order = new Order();
+        order.setId(id);
+        order.setStatus(3);
+        order.setUpdateTime(new Date());
+        order.setEndTime(new Date());
+        int i = orderService.updateOrder(order);
+        Result result;
+        if (i > 0){
+            result = new Result<>(0,"取消成功",i);
+        } else {
+            result = new Result<>(1,"取消失败",i);
         }
         ResponseUtil.writeJson(response,new Gson().toJson(result));
     }

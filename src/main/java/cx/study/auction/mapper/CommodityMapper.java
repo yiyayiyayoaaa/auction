@@ -15,6 +15,8 @@ public interface CommodityMapper {
 
     List<CommodityVo> findCommodity(CommodityQuery commodityQuery) throws Exception;
 
+    List<CommodityVo> findAuction(int userId) throws Exception;
+
     int saveImage(CommodityImage commodityImage) throws Exception;
 
     int addCommodity(Commodity commodity) throws Exception;

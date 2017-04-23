@@ -45,7 +45,7 @@
 <body>
 <div style="margin:5px 0;"></div>
 
-<table id="dg" class="easyui-datagrid" title="分类管理" style="width:100%;height:600px"
+<table id="dg" class="easyui-datagrid" title="分类管理" style="width:100%;height:500px"
        toolbar="#toolbar" data-options="pageSize:20,rownumbers:true,fitColumns:true,pagination:false,singleSelect:true,collapsible:true,
            url:'${pageContext.request.contextPath}/admin/findTypeList.do',method:'get'">
     <thead>

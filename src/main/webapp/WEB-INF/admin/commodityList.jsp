@@ -97,7 +97,7 @@
 <body>
     <div style="margin:5px 0;"></div>
 
-    <table id="dg" class="easyui-datagrid" title="商品列表" style="width:100%;height:600px"
+    <table id="dg" class="easyui-datagrid" title="商品列表" style="width:100%;height:500px"
            toolbar="#toolbar" data-options="pageSize:20,rownumbers:true,fitColumns:true,pagination:true,singleSelect:true,collapsible:true,
            url:'${pageContext.request.contextPath}/admin/findCommodity.do',method:'get'">
         <thead>
@@ -114,6 +114,7 @@
             <th data-options="field:'status',align:'center',formatter:statusFormatter">状态</th>
             <th data-options="field:'startTime',align:'center',formatter:DateTimeFormatter">开始时间</th>
             <th data-options="field:'endTime',align:'center',formatter:DateTimeFormatter">结束时间</th>
+            <th data-options="field:'registrationTime',align:'center',formatter:DateTimeFormatter">登记时间</th>
         </tr>
         </thead>
     </table>
