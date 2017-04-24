@@ -13,7 +13,8 @@ import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 /**
- * Created by AMOBBS on 2017/2/3.
+ *
+ * Created by cheng.xiao on 2017/2/3.
  */
 @Controller
 @RequestMapping("/admin")
@@ -41,5 +42,10 @@ public class AdminAction {
             request.setAttribute("loginFail","用户名或密码错误");
             return "admin/login";
         }
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session){
+        return "admin/login";
     }
 }
