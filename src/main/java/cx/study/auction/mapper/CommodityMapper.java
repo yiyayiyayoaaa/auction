@@ -36,4 +36,6 @@ public interface CommodityMapper {
     int payDeposit(Deposit deposit) ;
 
     int getTotalCount(CommodityQuery query);
+
+    List<Deposit> depositRecordByCommodityId(int commodityId);
 }

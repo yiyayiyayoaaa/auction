@@ -54,7 +54,9 @@
         <result column="user_id" property="userId" jdbcType="INTEGER" />
         <result column="time" property="time" jdbcType="TIMESTAMP" />
     </resultMap>
-    
+    <select id="depositRecordByCommodityId" parameterType="java.lang.Integer" resultMap="DepositResultMap">
+        SELECT * FROM deposit WHERE commodity_id = #{commodityId}
+    </select>
     <select id="getTotalCount" parameterType="cx.study.auction.query.CommodityQuery" resultType="java.lang.Integer">
         SELECT count(co.id)  FROM  commodity co, commodity_type ct, customer cu
         WHERE co.type_id = ct.id AND co.customer_id = cu.id

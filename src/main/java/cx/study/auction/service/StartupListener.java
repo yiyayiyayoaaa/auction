@@ -4,6 +4,7 @@ import cx.study.auction.mapper.CommodityMapper;
 import cx.study.auction.pojo.BidRecord;
 import cx.study.auction.pojo.Commodity;
 import cx.study.auction.pojo.Commodity.CommodityStatus;
+import cx.study.auction.pojo.Deposit;
 import cx.study.auction.pojo.Order;
 import cx.study.auction.query.CommodityQuery;
 import cx.study.auction.util.OrderNumUtil;
@@ -36,6 +37,8 @@ public class StartupListener implements ApplicationContextAware {
     CommodityMapper commodityMapper;
     @Resource
     private OrderService orderService;
+    @Resource
+    private DepositService depositService;
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         try {
@@ -89,6 +92,7 @@ public class StartupListener implements ApplicationContextAware {
                 commodity.setStatus(CommodityStatus.SUCCESS);
                 Order order = createOrder(commodity);
                 orderService.addOrder(order);
+                depositService.reverseDeposit(order);
             } else {
                 commodity.setStatus(CommodityStatus.UNSOLD);
             }

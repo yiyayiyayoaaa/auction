@@ -8,6 +8,7 @@ import cx.study.auction.query.CommodityCountQuery;
 import cx.study.auction.query.CommodityQuery;
 import cx.study.auction.query.DepositQuery;
 import cx.study.auction.service.CommodityService;
+import cx.study.auction.service.DepositService;
 import cx.study.auction.service.OrderService;
 import cx.study.auction.util.OrderNumUtil;
 import cx.study.auction.vo.CommodityVo;
@@ -33,6 +34,9 @@ public class CommodityServiceImpl implements CommodityService{
     private UserMapper userMapper;
     @Resource
     private OrderService orderService;
+
+    @Resource
+    private DepositService depositService;
     public List<CommodityVo> findCommodity(CommodityQuery commodityQuery) throws Exception {
         return commodityMapper.findCommodity(commodityQuery);
     }
@@ -127,7 +131,9 @@ public class CommodityServiceImpl implements CommodityService{
                         if (hammerPrice != null && hammerPrice > 0d){
                             commodity1.setStatus(CommodityStatus.SUCCESS);
                             Order order = createOrder(commodity);
+
                             orderService.addOrder(order);
+                            depositService.reverseDeposit(order);
                         } else {
                             commodity1.setStatus(CommodityStatus.UNSOLD);
                         }
@@ -267,6 +273,11 @@ public class CommodityServiceImpl implements CommodityService{
     @Override
     public int getTotalCount(CommodityQuery query) {
         return commodityMapper.getTotalCount(query);
+    }
+
+    @Override
+    public List<Deposit> depositRecordByCommodityId(int commodityId) {
+        return commodityMapper.depositRecordByCommodityId(commodityId);
     }
 
     private void startScheduledExecutorService(long delay,Runnable runnable){
