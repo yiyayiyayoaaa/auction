@@ -14,6 +14,6 @@ public interface CustomerMapper {
     int getTotalCount();
     int updateCustomer(Customer customer);
     int deleteCustomerById(Integer id);
-
+    int updateByPrimaryKeySelective(Customer customer);
     List<CustomerAllVo> findAllCustomer();
 }

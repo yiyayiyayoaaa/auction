@@ -52,7 +52,7 @@
 <body>
     <div style="margin:5px 0;"></div>
 
-    <table id="dg" class="easyui-datagrid" title="客户信息" style="width:100%;height:500px"
+    <table id="dg" class="easyui-datagrid" title="用户信息" style="width:100%;height:500px"
            toolbar="#toolbar" data-options="pageSize:20,rownumbers:true,fitColumns:true,pagination:true,singleSelect:true,collapsible:true,
            url:'${pageContext.request.contextPath}/admin/findUser.do',method:'get'">
         <thead>
@@ -64,6 +64,7 @@
             <th data-options="field:'phone',align:'center'">手机</th>
             <th data-options="field:'idcard',align:'center'">身份证号</th>
             <th data-options="field:'email',align:'center'">邮箱</th>
+            <th data-options="field:'account',align:'center'">账户余额(¥/元)</th>
             <th data-options="field:'birth',align:'center',formatter:DateFormatter">出生日期</th>
             <th data-options="field:'registrationTime',align:'center',formatter:DateTimeFormatter">登记日期</th>
             <th data-options="field:'updateTime',align:'center',formatter:DateTimeFormatter">修改日期</th>

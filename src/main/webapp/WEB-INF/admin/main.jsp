@@ -54,7 +54,7 @@
                         <a href="javascript:openTab('分类管理','${pageContext.request.contextPath}/admin/typeList.do')" class="easyui-linkbutton" data-options="plain:true">分类管理</a><br>
                     </div>
                     <div title="交易管理"  style="padding:10px;">
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">交易信息</a><br>
+                        <a href="javascript:openTab('交易信息','${pageContext.request.contextPath}/admin/transaction.do')" class="easyui-linkbutton" data-options="plain:true">交易信息</a><br>
                         <a href="javascript:openTab('订单管理','${pageContext.request.contextPath}/admin/orderList.do')" class="easyui-linkbutton" data-options="plain:true">订单管理</a>
                     </div>
                     <div title="用户管理"  style="padding:10px;">
@@ -72,8 +72,12 @@
                     <%--</div>--%>
                     <div title="系统管理" style="padding:10px">
                         <a href="#" class="easyui-linkbutton" data-options="plain:true">系统设置</a><br>
+                        <a href="${pageContext.request.contextPath}/admin/logout.do" class="easyui-linkbutton" data-options="plain:true">退出登录</a><br>
                     </div>
+
                 </div>
+
+                <div class="easyui-calendar" style="width:100%;height:40%;position: absolute;bottom: 0"></div>
             </div>
 
             <div data-options="region:'center'">

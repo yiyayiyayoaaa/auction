@@ -1,7 +1,8 @@
 package cx.study.auction.query;
 
 /**
- * Created by AMOBBS on 2017/2/4.
+ *
+ * Created by cheng.xiao on 2017/2/4.
  */
 public class CustomerQuery extends BaseQuery{
     private String name;

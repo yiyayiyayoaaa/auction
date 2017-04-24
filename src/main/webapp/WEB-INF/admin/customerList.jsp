@@ -53,7 +53,7 @@
     <div style="margin:5px 0;"></div>
 
     <table id="dg" class="easyui-datagrid" title="客户信息" style="width:100%;height:500px"
-           toolbar="#toolbar" data-options="pageSize:15,rownumbers:true,fitColumns:true,pagination:true,singleSelect:true,collapsible:true,
+           toolbar="#toolbar" data-options="pageSize:20,rownumbers:true,fitColumns:true,pagination:true,singleSelect:true,collapsible:true,
            url:'${pageContext.request.contextPath}/admin/findCustomer.do',method:'get'">
         <thead>
         <tr>
@@ -74,7 +74,7 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除</a>
         <div style="width: 220px;float: right;margin-right: 10px">
-            <input id="search" class="easyui-textbox"  style="width: 100%" data-options="buttonText:'查询',onClickButton:doSearch,buttonAlign:'left',buttonIcon:'icon-search'"/>
+            <input id="search" class="easyui-textbox"  style="width: 100%" data-options="prompt:'请输入要查询的关键字',buttonText:'查询',onClickButton:doSearch,buttonAlign:'left',buttonIcon:'icon-search'"/>
         </div>
     </div>
     <div id="dlg" class="easyui-dialog" style="width:600px" closed="true" buttons="#dlg-buttons">

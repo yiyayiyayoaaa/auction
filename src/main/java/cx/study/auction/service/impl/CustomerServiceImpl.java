@@ -34,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     public int updateCustomer(Customer customer) {
-        return customerMapper.updateCustomer(customer);
+        return customerMapper.updateByPrimaryKeySelective(customer);
     }
 
     public int deleteCustomerById(Integer id) {

@@ -56,6 +56,12 @@ public class AdminPageAction {
     public String toOrderList(){
         return "admin/orderList";
     }
+
+    @RequestMapping("/transaction")
+    public String toTransaction(){
+        return "admin/transaction";
+    }
+
     @RequestMapping("testLogin")
     public void test(HttpServletRequest request, HttpServletResponse response) throws Exception{
         String loginId = RequestUtil.getString(request,"loginId");

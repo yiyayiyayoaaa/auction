@@ -8,6 +8,7 @@ import cx.study.auction.service.CustomerService;
 import cx.study.auction.util.RequestUtil;
 import cx.study.auction.util.ResponseUtil;
 import cx.study.auction.vo.CustomerAllVo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -59,8 +60,10 @@ public class CustomerAction {
             query.setPageNo(page);
             query.setRows(rows);
         }
-        query.setIdcard(key);
-        query.setName(key);
+       if (!StringUtils.isEmpty(key)){
+           query.setIdcard(key);
+           query.setName(key);
+       }
         List<Customer> customerList = customerService.findCustomer(query);
         Map<String,Object> map = new HashMap<>();
         map.put("rows",customerList);
@@ -79,11 +82,9 @@ public class CustomerAction {
     @RequestMapping("/updateCustomer")
     public void updateCustomer(HttpServletResponse response,HttpServletRequest request) throws Exception {
         Integer id = RequestUtil.getInteger(request,"id");
-        Date registrationTime = RequestUtil.getDate(request, "registrationTime");
         Customer customer = getCustomerByRequest(request);
         customer.setId(id);
         customer.setUpdateTime(new Date());
-        customer.setRegistrationTime(registrationTime);
         int resultCode = customerService.updateCustomer(customer);
         ResponseMessage<String> responseMessage = new ResponseMessage<String>();
         if (resultCode == OK){

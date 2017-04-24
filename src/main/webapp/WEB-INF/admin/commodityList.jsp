@@ -125,7 +125,7 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="commodityOn()">上架</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="commodityOff()">下架</a>
         <div style="width: 220px;float: right;margin-right: 10px">
-            <input id="search" class="easyui-textbox"  style="width: 100%" data-options="buttonText:'查询',onClickButton:doSearch,buttonAlign:'left',buttonIcon:'icon-search'"/>
+            <input id="search" class="easyui-textbox"  style="width: 100%" data-options="prompt:'请输入要查询的关键字',buttonText:'查询',onClickButton:doSearch,buttonAlign:'left',buttonIcon:'icon-search'"/>
         </div>
     </div>
 
