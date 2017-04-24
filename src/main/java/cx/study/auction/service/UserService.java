@@ -14,7 +14,7 @@ public interface UserService {
 
     User login(User user);
     int register(User user);
-
+    User findUserByUsername(String username);
     int addUserAddress(UserAddress address);
     int update(UserAddress address);
     int delete(int id);

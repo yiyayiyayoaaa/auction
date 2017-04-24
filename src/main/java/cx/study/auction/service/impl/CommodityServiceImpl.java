@@ -264,6 +264,11 @@ public class CommodityServiceImpl implements CommodityService{
         return commodityMapper.findUserIsPayDeposit(new DepositQuery(userId,commodityId));
     }
 
+    @Override
+    public int getTotalCount(CommodityQuery query) {
+        return commodityMapper.getTotalCount(query);
+    }
+
     private void startScheduledExecutorService(long delay,Runnable runnable){
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
         service.schedule(runnable,delay, TimeUnit.MILLISECONDS);

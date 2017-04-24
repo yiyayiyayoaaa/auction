@@ -34,4 +34,6 @@ public interface CommodityMapper {
     Deposit findUserIsPayDeposit(DepositQuery query);
 
     int payDeposit(Deposit deposit) ;
+
+    int getTotalCount(CommodityQuery query);
 }

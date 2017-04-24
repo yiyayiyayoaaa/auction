@@ -24,6 +24,8 @@ public interface UserMapper {
 
     User login(User user);
 
+    User findUserByUsername(String username);
+
     int register(User user);
 
     User updateUserInfo(User user);

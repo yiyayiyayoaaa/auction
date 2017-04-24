@@ -39,15 +39,20 @@ public class CommodityAction {
     public void findCommodity(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Integer page = RequestUtil.getInteger(request, "page");
         Integer rows = RequestUtil.getInteger(request, "rows");
+        String key = RequestUtil.getString(request, "key");
         CommodityQuery query = new CommodityQuery();
         if(page != null && rows != null){
             query.setPageNo(page);
             query.setRows(rows);
         }
+        if (!StringUtils.isEmpty(key)){
+            query.setKeyWord("%"+key+"%");
+        }
         List<CommodityVo> list = commodityService.findCommodity(query);
+        int count = commodityService.getTotalCount(query);
         Map<String,Object> map = new HashMap<>();
         map.put("rows",list);
-        map.put("total",list.size());
+        map.put("total",count);
         String result = new Gson().toJson(map);
         ResponseUtil.writeJson(response,result);
     }

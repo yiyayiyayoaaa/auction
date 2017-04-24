@@ -37,4 +37,6 @@ public interface CommodityService {
     int payDeposit(int userId, int commodityId) throws Exception;
 
     Deposit findUserIsPayDeposit(int userId, int commodityId) throws Exception;
+
+    int getTotalCount(CommodityQuery query);
 }

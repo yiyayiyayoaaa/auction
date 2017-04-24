@@ -38,6 +38,10 @@
       SELECT id,user_id,address,time FROM user_address WHERE user_id = #{id,jdbcType=INTEGER}
     </select>
 
+    <select id="findUserByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+      SELECT * from `user` WHERE username = #{username}
+    </select>
+
   <update id="updateAddress" parameterType="cx.study.auction.pojo.UserAddress">
     UPDATE user_address
     SET address = #{address},time=#{time}
@@ -48,18 +52,12 @@
         DELETE FROM user_address WHERE id = #{id}
     </delete>
   <insert id="register" parameterType="cx.study.auction.pojo.User">
-    insert into user (id, username, password,
-      portrait, nickname, name,
-      birth, gender, IDCard,
-      phone, email, status,
-      account, payment_password, registration_time,
+    insert into user (username, password, nickname,
+      gender, registration_time,
       update_time)
-    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-      #{portrait,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
-      #{birth,jdbcType=DATE}, #{gender,jdbcType=INTEGER}, #{idcard,jdbcType=VARCHAR},
-      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
-      #{account,jdbcType=DECIMAL}, #{paymentPassword,jdbcType=VARCHAR}, #{registrationTime,jdbcType=TIMESTAMP},
-      #{updateTime,jdbcType=TIMESTAMP})
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{nickname,jdbcType=VARCHAR},#{gender,jdbcType=INTEGER},
+      #{registrationTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP})
   </insert>
     <select id="findUser" parameterType="cx.study.auction.query.UserQuery" resultMap="BaseResultMap">
         SELECT id, username, portrait, nickname, name,

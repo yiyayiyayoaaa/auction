@@ -54,7 +54,15 @@
         <result column="user_id" property="userId" jdbcType="INTEGER" />
         <result column="time" property="time" jdbcType="TIMESTAMP" />
     </resultMap>
-
+    
+    <select id="getTotalCount" parameterType="cx.study.auction.query.CommodityQuery" resultType="java.lang.Integer">
+        SELECT count(co.id)  FROM  commodity co, commodity_type ct, customer cu
+        WHERE co.type_id = ct.id AND co.customer_id = cu.id
+        <if test="keyWord != null">
+            AND ( commodity_name LIKE #{keyWord} OR ct.type_name LIKE #{keyWord} OR cu.name LIKE #{keyWord})
+        </if>
+    </select>
+    
     <select id="findAuction" parameterType="java.lang.Integer" resultMap="CommodityListResultMap">
      SELECT co.id, commodity_name, type_id, type_name,co.description, customer_id, cu.name customer_name,appraised_price, reserve_price,
         starting_price, bid_increments, hammer_price, bidding_deposit, status, start_time,
@@ -101,6 +109,9 @@
     <if test="status != null">
       AND co.status = #{status,jdbcType=INTEGER}
     </if>
+      <if test="keyWord != null">
+          AND ( commodity_name LIKE #{keyWord} OR type_name LIKE #{keyWord} OR cu.name LIKE #{keyWord})
+      </if>
     <if test="rows != 0">limit #{startRow},#{rows}</if>
   </select>
 

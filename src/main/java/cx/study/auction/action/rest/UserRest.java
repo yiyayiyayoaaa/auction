@@ -67,8 +67,16 @@ public class UserRest {
     public void register(HttpServletResponse response, @RequestBody JsonObject json) throws Exception{
         String username = json.get("username").getAsString();
         String password = json.get("password").getAsString();
+        int gender = json.get("gender").getAsInt();
+        User user1 = userService.findUserByUsername(username);
+        if (user1 != null){
+            Result result = new Result<>(1,"该用户名已存在",1);
+            ResponseUtil.writeJson(response,new Gson().toJson(result));
+            return;
+        }
         User user = new User();
         user.setUsername(username);
+        user.setGender(gender);
         user.setPassword(password);
         user.setNickname(DefaultNicknameUtil.buildNickname());
         user.setRegistrationTime(new Date());
