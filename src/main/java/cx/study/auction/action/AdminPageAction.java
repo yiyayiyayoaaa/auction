@@ -62,6 +62,11 @@ public class AdminPageAction {
         return "admin/transaction";
     }
 
+    @RequestMapping("/passwordReset")
+    public String toPasswordRest(){
+        return "admin/resetPassword";
+    }
+
     @RequestMapping("testLogin")
     public void test(HttpServletRequest request, HttpServletResponse response) throws Exception{
         String loginId = RequestUtil.getString(request,"loginId");

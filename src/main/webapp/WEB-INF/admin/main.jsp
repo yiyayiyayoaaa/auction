@@ -71,7 +71,7 @@
                         <%--<a href="#" class="easyui-linkbutton" data-options="plain:true">个人信息</a><br>--%>
                     <%--</div>--%>
                     <div title="系统管理" style="padding:10px">
-                        <a href="#" class="easyui-linkbutton" data-options="plain:true">系统设置</a><br>
+                        <a href="javascript:openTab('修改密码','${pageContext.request.contextPath}/admin/passwordReset.do')" class="easyui-linkbutton" data-options="plain:true">修改密码</a><br>
                         <a href="${pageContext.request.contextPath}/admin/logout.do" class="easyui-linkbutton" data-options="plain:true">退出登录</a><br>
                     </div>
 
@@ -83,7 +83,9 @@
             <div data-options="region:'center'">
                <div id="tabs" class="easyui-tabs" style="width:100%;height:100%;">
                     <div title="首页" style="padding:10px;display:none;">
+                        <div class="easyui-draggable">
                         <img src="${pageContext.request.contextPath}/chart/pie.do" >
+                    </div>
                     </div>
                 </div>
             </div>
